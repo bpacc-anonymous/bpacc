@@ -1,0 +1,287 @@
+{
+  "$schema": "https://unpkg.com/@camunda/zeebe-element-templates-json-schema/resources/schema.json",
+  "name": "BPACC | Sales Notification",
+  "id": "io.bpacc.connectors.SalesAlert.v1",
+  "description": "Sends a real-time alert to a sales representative with visitor scoring data.",
+  "metadata": {
+    "keywords": []
+  },
+  "version": 1,
+  "category": {
+    "id": "connectors",
+    "name": "Connectors"
+  },
+  "appliesTo": [
+    "bpmn:Task"
+  ],
+  "elementType": {
+    "value": "bpmn:ServiceTask"
+  },
+  "engines": {
+    "camunda": "^8.3"
+  },
+  "groups": [
+    {
+      "id": "taskDefinitionType",
+      "label": "Task definition type"
+    },
+    {
+      "id": "authentication",
+      "label": "Authentication"
+    },
+    {
+      "id": "routing",
+      "label": "Routing"
+    },
+    {
+      "id": "message",
+      "label": "Capability Parameters"
+    },
+    {
+      "id": "constraints",
+      "label": "Constraints"
+    },
+    {
+      "id": "connector",
+      "label": "Connector"
+    },
+    {
+      "id": "output",
+      "label": "Output mapping"
+    },
+    {
+      "id": "error",
+      "label": "Error handling"
+    },
+    {
+      "id": "retries",
+      "label": "Retries"
+    }
+  ],
+  "properties": [
+    {
+      "id": "taskDefinitionType",
+      "value": "io.camunda:connector-rabbitmq:1",
+      "group": "taskDefinitionType",
+      "binding": {
+        "property": "type",
+        "type": "zeebe:taskDefinition"
+      },
+      "type": "String"
+    },
+    {
+      "id": "authentication.authType",
+      "value": "uri",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.authType",
+        "type": "zeebe:input"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "authentication.uri",
+      "label": "RabbitMQ URI",
+      "description": "Secret reference to RabbitMQ connection URI (e.g. secrets.RABBITMQ_URI)",
+      "optional": false,
+      "value": "secrets.RABBITMQ_URI",
+      "constraints": {
+        "notEmpty": true,
+        "pattern": {
+          "value": "^(=|(amqps?://|secrets|\\{\\{).*$)",
+          "message": "Must start with amqp(s):// or contain a secret reference"
+        }
+      },
+      "feel": "optional",
+      "group": "authentication",
+      "binding": {
+        "name": "authentication.uri",
+        "type": "zeebe:input"
+      },
+      "type": "String"
+    },
+    {
+      "id": "routing.exchange",
+      "value": "bpacc.intent",
+      "group": "routing",
+      "binding": {
+        "name": "routing.exchange",
+        "type": "zeebe:input"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "routing.routingKey",
+      "value": "queue-cloud",
+      "group": "routing",
+      "binding": {
+        "name": "routing.routingKey",
+        "type": "zeebe:input"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "message.properties",
+      "label": "AMQP Properties",
+      "optional": true,
+      "value": "={}",
+      "feel": "required",
+      "group": "message",
+      "binding": {
+        "name": "message.properties",
+        "type": "zeebe:input"
+      },
+      "type": "Text"
+    },
+    {
+      "id": "message.body",
+      "label": "Capability Parameters",
+      "description": "Parameters:\n- Recipient ID (recipient_id): xsd:string\n- Message Content (message_body): xsd:string\n- Visitor Qualification Score (visitor_score): xsd:float",
+      "optional": false,
+      "value": "= {\"cap_id\": \"cap:communication.sales_alert\", \"constraints\": {\"region\": constraints.region, \"latency\": constraints.latency}, \"params\": {\"recipient_id\": \"\", \"message_body\": \"\", \"visitor_score\": \"\"}}",
+      "feel": "required",
+      "constraints": {
+        "notEmpty": true
+      },
+      "group": "message",
+      "binding": {
+        "name": "message.body",
+        "type": "zeebe:input"
+      },
+      "type": "Text"
+    },
+    {
+      "id": "constraints.region",
+      "label": "Data Region",
+      "description": "Geographic region constraint for data sovereignty",
+      "value": "eu",
+      "group": "constraints",
+      "binding": {
+        "name": "constraints.region",
+        "type": "zeebe:input"
+      },
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "European Union (GDPR)",
+          "value": "eu"
+        },
+        {
+          "name": "United States",
+          "value": "us"
+        },
+        {
+          "name": "Asia-Pacific",
+          "value": "apac"
+        }
+      ]
+    },
+    {
+      "id": "constraints.latency",
+      "label": "Latency Profile",
+      "description": "Required latency tier for this capability",
+      "value": "standard",
+      "group": "constraints",
+      "binding": {
+        "name": "constraints.latency",
+        "type": "zeebe:input"
+      },
+      "type": "Dropdown",
+      "choices": [
+        {
+          "name": "Critical (< 20ms)",
+          "value": "critical"
+        },
+        {
+          "name": "Standard (< 500ms)",
+          "value": "standard"
+        },
+        {
+          "name": "Best-effort (> 500ms)",
+          "value": "best-effort"
+        }
+      ]
+    },
+    {
+      "id": "version",
+      "value": "1",
+      "group": "connector",
+      "binding": {
+        "key": "elementTemplateVersion",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "id",
+      "value": "io.bpacc.connectors.SalesAlert.v1",
+      "group": "connector",
+      "binding": {
+        "key": "elementTemplateId",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "Hidden"
+    },
+    {
+      "id": "resultVariable",
+      "label": "Result variable",
+      "description": "Name of variable to store the response in",
+      "group": "output",
+      "binding": {
+        "key": "resultVariable",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "String"
+    },
+    {
+      "id": "resultExpression",
+      "label": "Result expression",
+      "value": "= {status: response.body.status, result: response.body.result}",
+      "feel": "required",
+      "group": "output",
+      "binding": {
+        "key": "resultExpression",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "Text"
+    },
+    {
+      "id": "errorExpression",
+      "label": "Error expression",
+      "value": "= if error.code = \"RABBITMQ_ERROR\" then bpmnError(\"CAPABILITY_FAILED\", error.message) else null",
+      "feel": "required",
+      "group": "error",
+      "binding": {
+        "key": "errorExpression",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "Text"
+    },
+    {
+      "id": "retryCount",
+      "label": "Retries",
+      "value": "3",
+      "feel": "optional",
+      "group": "retries",
+      "binding": {
+        "property": "retries",
+        "type": "zeebe:taskDefinition"
+      },
+      "type": "String"
+    },
+    {
+      "id": "retryBackoff",
+      "label": "Retry backoff",
+      "value": "PT5S",
+      "group": "retries",
+      "binding": {
+        "key": "retryBackoff",
+        "type": "zeebe:taskHeader"
+      },
+      "type": "String"
+    }
+  ],
+  "icon": {
+    "contents": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0naHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmcnIHdpZHRoPScxOCcgaGVpZ2h0PScxOCcgdmlld0JveD0nLTcuNSAwIDI3MSAyNzEnIHByZXNlcnZlQXNwZWN0UmF0aW89J3hNaWRZTWlkJz4KICAgIDxwYXRoIGQ9J00yNDUuNDQgMTA4LjMwOGgtODUuMDlhNy43MzggNy43MzggMCAwIDEtNy43MzUtNy43MzR2LTg4LjY4QzE1Mi42MTUgNS4zMjcgMTQ3LjI5IDAgMTQwLjcyNiAwaC0zMC4zNzVjLTYuNTY4IDAtMTEuODkgNS4zMjctMTEuODkgMTEuODk0djg4LjE0M2MwIDQuNTczLTMuNjk3IDguMjktOC4yNyA4LjMxbC0yNy44ODUuMTMzYy00LjYxMi4wMjUtOC4zNTktMy43MTctOC4zNS04LjMyNWwuMTczLTg4LjI0MUM1NC4xNDQgNS4zMzcgNDguODE3IDAgNDIuMjQgMEgxMS44OUM1LjMyMSAwIDAgNS4zMjcgMCAxMS44OTRWMjYwLjIxYzAgNS44MzQgNC43MjYgMTAuNTYgMTAuNTU1IDEwLjU2SDI0NS40NGM1LjgzNCAwIDEwLjU2LTQuNzI2IDEwLjU2LTEwLjU2VjExOC44NjhjMC01LjgzNC00LjcyNi0xMC41Ni0xMC41Ni0xMC41NnptLTM5LjkwMiA5My4yMzNjMCA3LjY0NS02LjE5OCAxMy44NDQtMTMuODQzIDEzLjg0NEgxNjcuNjljLTcuNjQ2IDAtMTMuODQ0LTYuMTk5LTEzLjg0NC0xMy44NDR2LTI0LjAwNWMwLTcuNjQ2IDYuMTk4LTEzLjg0NCAxMy44NDQtMTMuODQ0aDI0LjAwNWM3LjY0NSAwIDEzLjg0MyA2LjE5OCAxMy44NDMgMTMuODQ0djI0LjAwNXonIGZpbGw9JyNGNjAnLz4KPC9zdmc+"
+  }
+}

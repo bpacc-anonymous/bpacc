@@ -1,0 +1,322 @@
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix ssn: <http://purl.oclc.org/NET/ssnx/ssn#> .
+@prefix iot-lite: <http://purl.oclc.org/NET/UNIS/fiware/iot-lite#> .
+@prefix bpacc: <http://anonymous.org/research/bpacc#> .
+
+# ---------------------------------------------------------------------------
+# 0. DÉFINITION DE L'ONTOLOGIE (TBOX)
+# ---------------------------------------------------------------------------
+
+<http://anonymous.org/research/bpacc> a owl:Ontology ;
+    rdfs:label "BPACC TBox" ;
+    rdfs:comment "Terminological Box for BPACC. Defines the schema for Continuum Infrastructure and Business Capabilities."@en ;
+    owl:versionInfo "3.3" ;
+    owl:imports <http://purl.oclc.org/NET/UNIS/fiware/iot-lite> .
+
+# ---------------------------------------------------------------------------
+# 1. MÉTA-MODÈLE DE CONFIGURATION (Pour le Générateur Python)
+# ---------------------------------------------------------------------------
+
+bpacc:InputParameter a owl:Class ;
+    rdfs:label "Input Configuration Parameter" ;
+    rdfs:comment "Describes a parameter required by a capability at runtime."@en .
+
+bpacc:hasInputParameter a owl:ObjectProperty ;
+    rdfs:domain bpacc:BusinessCapability ;
+    rdfs:range bpacc:InputParameter .
+
+bpacc:paramName a owl:DatatypeProperty ;
+    rdfs:domain bpacc:InputParameter ;
+    rdfs:range xsd:string ;
+    rdfs:comment "Technical variable name (key) used in the JSON payload."@en .
+
+bpacc:paramLabel a owl:DatatypeProperty ;
+    rdfs:domain bpacc:InputParameter ;
+    rdfs:range xsd:string ;
+    rdfs:comment "User-friendly label displayed in Camunda Modeler."@en .
+
+bpacc:paramType a owl:DatatypeProperty ;
+    rdfs:domain bpacc:InputParameter ;
+    rdfs:comment "Expected XSD data type (string, float, boolean, integer)."@en .
+
+# ---------------------------------------------------------------------------
+# 2. INFRASTRUCTURE CONTINUUM (Hiérarchie de Classes)
+# ---------------------------------------------------------------------------
+
+bpacc:ComputeNode a owl:Class ;
+    rdfs:subClassOf ssn:Platform ;
+    rdfs:label "Compute Node" .
+
+bpacc:EdgeGateway a owl:Class ;
+    rdfs:subClassOf bpacc:ComputeNode ;
+    rdfs:label "Edge Gateway" ;
+    rdfs:comment "Low-latency resource hosting API clients and local logic."@en .
+
+bpacc:CloudNode a owl:Class ;
+    rdfs:subClassOf bpacc:ComputeNode ;
+    rdfs:label "Cloud Node" ;
+    rdfs:comment "High-capacity resource for persistence and heavy compute."@en .
+
+bpacc:LegacyEndpoint a owl:Class ;
+    rdfs:subClassOf ssn:Platform ;
+    rdfs:label "Legacy Endpoint" ;
+    rdfs:comment "Physical device with actuation/sensing (e.g., Robot)."@en .
+
+# ---------------------------------------------------------------------------
+# 3. CAPACITÉS MÉTIER
+# ---------------------------------------------------------------------------
+
+bpacc:BusinessCapability a owl:Class ;
+    rdfs:subClassOf iot-lite:Service .
+
+# ---------------------------------------------------------------------------
+# 3.A. SENSING & DETECTION
+# ---------------------------------------------------------------------------
+
+bpacc:PresenceDetection_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Presence And Object Detection" ;
+    rdfs:comment "Detects human presence or specific objects in the sensor field."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "detection_zone" ;
+        bpacc:paramLabel "Detection Zone (ID or label)" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "confidence_threshold" ;
+        bpacc:paramLabel "Confidence Threshold (0.0 - 1.0)" ;
+        bpacc:paramType xsd:float
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "detection_class" ;
+        bpacc:paramLabel "Target Class (human / badge / object / any)" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "timeout_seconds" ;
+        bpacc:paramLabel "Maximum Wait Delay (seconds)" ;
+        bpacc:paramType xsd:float
+    ] .
+
+bpacc:OpticalCharacterRecognition_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Optical Character Recognition" ;
+    rdfs:comment "Extracts text from an image source."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "image_base64" ;
+        bpacc:paramLabel "Image Source (base64 encoded)" ;
+        bpacc:paramType xsd:string
+    ] .
+
+bpacc:AudioVisualCapture_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Synchronized Audio Visual Capture" ;
+    rdfs:comment "Synchronized audio and video capture from robot sensors."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "duration" ;
+        bpacc:paramLabel "Recording Duration (seconds)" ;
+        bpacc:paramType xsd:float
+    ] .
+
+# ---------------------------------------------------------------------------
+# 3.B. GENERATIVE AI
+# ---------------------------------------------------------------------------
+
+bpacc:GenerativeAI_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Generative Artificial Intelligence Service" ;
+    rdfs:comment "Abstract parent for all LLM-based capabilities."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "system_instruction" ;
+        bpacc:paramLabel "System Prompt / Persona" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "temperature" ;
+        bpacc:paramLabel "Creativity Level (0.0 - 1.0)" ;
+        bpacc:paramType xsd:float
+    ] .
+
+bpacc:DataStructuring_Service a owl:Class ;
+    rdfs:subClassOf bpacc:GenerativeAI_Service ;
+    rdfs:label "Large Language Model Data Structuring" ;
+    rdfs:comment "Processes raw unstructured text and returns a structured JSON object."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "raw_input" ;
+        bpacc:paramLabel "Raw Text to Structure" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "output_schema" ;
+        bpacc:paramLabel "Expected Output Schema (JSON Schema)" ;
+        bpacc:paramType xsd:string
+    ] .
+
+bpacc:SocialInteraction_Service a owl:Class ;
+    rdfs:subClassOf bpacc:GenerativeAI_Service ;
+    rdfs:label "Social Chat Interaction" ;
+    rdfs:comment "Generates conversational responses for human-robot interaction."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "user_message" ;
+        bpacc:paramLabel "User Message" ;
+        bpacc:paramType xsd:string
+    ] .
+
+bpacc:VisitorQualification_Service a owl:Class ;
+    rdfs:subClassOf bpacc:GenerativeAI_Service ;
+    rdfs:label "Visitor Qualification Decision" ;
+    rdfs:comment "Evaluates structured visitor data and returns a qualification decision with a confidence score."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "context_data" ;
+        bpacc:paramLabel "Contextual Data (JSON)" ;
+        bpacc:paramType xsd:string
+    ] .
+
+# ---------------------------------------------------------------------------
+# 3.C. ACTUATION
+# ---------------------------------------------------------------------------
+
+bpacc:TextToSpeech_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Text To Speech" ;
+    rdfs:comment "Converts text to speech output on the robot endpoint via NAOqi ALTextToSpeech."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "text_to_say" ;
+        bpacc:paramLabel "Text to Speak" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "language" ;
+        bpacc:paramLabel "Language Code (fr-FR / en-US / ...)" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "speech_rate" ;
+        bpacc:paramLabel "Speech Rate (0.5 - 2.0)" ;
+        bpacc:paramType xsd:float
+    ] .
+
+bpacc:RobotLifecycleControl_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Robot Lifecycle Control" ;
+    rdfs:comment "Controls the operational state of the robot endpoint (Standby, Active, Patrol, etc.)."@en ;
+    bpacc:targetNode bpacc:EdgeGateway ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "target_state" ;
+        bpacc:paramLabel "Target State (Standby / Active / Patrol)" ;
+        bpacc:paramType xsd:string
+    ] .
+
+# ---------------------------------------------------------------------------
+# 3.D. COMMUNICATION
+# ---------------------------------------------------------------------------
+
+bpacc:SalesNotification_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Sales Notification" ;
+    rdfs:comment "Sends a real-time alert to a sales representative with visitor scoring data."@en ;
+    bpacc:targetNode bpacc:CloudNode ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "recipient_id" ;
+        bpacc:paramLabel "Recipient Identifier" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "message_body" ;
+        bpacc:paramLabel "Message Content" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "visitor_score" ;
+        bpacc:paramLabel "Visitor Qualification Score" ;
+        bpacc:paramType xsd:float
+    ] .
+
+# ---------------------------------------------------------------------------
+# 3.E. DATA & PERSISTENCE
+# ---------------------------------------------------------------------------
+
+bpacc:CustomerRelationshipManagementUpdate_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Customer Relationship Management Update" ;
+    rdfs:comment "Pushes or updates visitor records in the CRM system."@en ;
+    bpacc:targetNode bpacc:CloudNode ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "visitor_record" ;
+        bpacc:paramLabel "Visitor Data (JSON)" ;
+        bpacc:paramType xsd:string
+    ] ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "operation" ;
+        bpacc:paramLabel "Operation (create / update / upsert)" ;
+        bpacc:paramType xsd:string
+    ] .
+
+bpacc:WebSearch_Service a owl:Class ;
+    rdfs:subClassOf bpacc:BusinessCapability ;
+    rdfs:label "Web Information Retrieval" ;
+    rdfs:comment "Performs a web search to enrich visitor or contextual data."@en ;
+    bpacc:targetNode bpacc:CloudNode ;
+    bpacc:hasInputParameter [
+        a bpacc:InputParameter ;
+        bpacc:paramName "search_query" ;
+        bpacc:paramLabel "Search Query" ;
+        bpacc:paramType xsd:string
+    ] .
+
+# ---------------------------------------------------------------------------
+# 4. PROPRIÉTÉS DE GOUVERNANCE
+# ---------------------------------------------------------------------------
+
+bpacc:targetNode a owl:ObjectProperty ;
+    rdfs:domain bpacc:BusinessCapability ;
+    rdfs:range bpacc:ComputeNode ;
+    rdfs:label "Target Compute Node" ;
+    rdfs:comment "Declares the target infrastructure node for this capability, used by the connector generator to assign the correct RabbitMQ routing key."@en .
+
+bpacc:hasRegion a owl:DatatypeProperty ;
+    rdfs:subPropertyOf iot-lite:metadataValue ;
+    rdfs:domain bpacc:ComputeNode ;
+    rdfs:range xsd:string ;
+    rdfs:label "Geographic Region (GDPR)" .
+
+bpacc:guaranteedLatency a owl:DatatypeProperty ;
+    rdfs:domain bpacc:BusinessCapability ;
+    rdfs:range xsd:integer ;
+    rdfs:label "Guaranteed Latency (ms)" .
+
+bpacc:privacyLevel a owl:DatatypeProperty ;
+    rdfs:domain bpacc:ComputeNode ;
+    rdfs:range xsd:string .
