@@ -1,0 +1,310 @@
+{
+  "meta": {
+    "evaluated_at": "2026-03-19T05:03:25.346813Z",
+    "theta_bt": 3,
+    "bertopic_available": true,
+    "llm_model": "moonshotai/kimi-k2-instruct"
+  },
+  "groupers": {
+    "fallback": {
+      "latency_ms": 0.006,
+      "n_classes": 13,
+      "classes": {
+        "OCR_LLM_Mistral": "OCR_Service",
+        "DataStructuring_LLM_Mistral": "DataStructuring_Service",
+        "VisitorQualification_LLM_Mistral": "VisitorQualification_Service",
+        "WebSearch_LLM_Tavily": "WebSearch_Service",
+        "SalesNotification_Filter": "SalesNotification_Service",
+        "ObjectDetection_LLM_Mistral": "ObjectDetection_Service",
+        "AudioRecording_NAOqi_Pepper": "AudioRecording_Service",
+        "VideoCapture_NAOqi_Pepper": "VideoCapture_Service",
+        "LLMText_Whisper_Mistral": "LLMText_Service",
+        "TextToSpeech_NAOqi_Pepper": "TextToSpeech_Service",
+        "CRM_Storage_Service": "CRM_Service",
+        "VisitorInteraction_Streamlit_UI": "VisitorInteraction_Service",
+        "Robot_Behavior_Interaction": "Robot_Service"
+      }
+    },
+    "bertopic": {
+      "latency_ms": 12953.3,
+      "n_classes": 9,
+      "classes": {
+        "OCR_LLM_Mistral": "Frame_Service",
+        "DataStructuring_LLM_Mistral": "Visitor_Service",
+        "VisitorQualification_LLM_Mistral": "Score_Service",
+        "WebSearch_LLM_Tavily": "Visitor_Service",
+        "SalesNotification_Filter": "Score_Service",
+        "ObjectDetection_LLM_Mistral": "Frame_Service",
+        "LLMText_Whisper_Mistral": "Visitor_Service",
+        "AudioRecording_NAOqi_Pepper": "AudioRecording_Service",
+        "VideoCapture_NAOqi_Pepper": "VideoCapture_Service",
+        "TextToSpeech_NAOqi_Pepper": "TextToSpeech_Service",
+        "Robot_Behavior_Interaction": "Robot_Service",
+        "CRM_Storage_Service": "CRM_Service",
+        "VisitorInteraction_Streamlit_UI": "VisitorInteraction_Service"
+      },
+      "meta": {
+        "status": "ran",
+        "partitions": {
+          "Sp": {
+            "n": 7,
+            "method": "bertopic_success",
+            "n_topics": 3,
+            "latency_ms": 7704.69
+          },
+          "Ss": {
+            "n": 2,
+            "method": "fallback_exception",
+            "error": "zero-size array to reduction operation maximum which has no identity",
+            "latency_ms": 3220.02
+          },
+          "Sa": {
+            "n": 2,
+            "method": "fallback_exception",
+            "error": "zero-size array to reduction operation maximum which has no identity",
+            "latency_ms": 2028.53
+          },
+          "Sd": {
+            "n": 1,
+            "method": "fallback_size",
+            "latency_ms": 0.0
+          },
+          "Si": {
+            "n": 1,
+            "method": "fallback_size",
+            "latency_ms": 0.0
+          }
+        }
+      }
+    },
+    "llm_kimi": {
+      "latency_ms": 3399.39,
+      "n_classes": 13,
+      "classes": {
+        "AudioRecording_NAOqi_Pepper": "AudioCapture_Service",
+        "VideoCapture_NAOqi_Pepper": "VideoCapture_Service",
+        "TextToSpeech_NAOqi_Pepper": "SpeechOutput_Service",
+        "Robot_Behavior_Interaction": "RobotMotion_Service",
+        "OCR_LLM_Mistral": "TextExtraction_Service",
+        "DataStructuring_LLM_Mistral": "DataStructuring_Service",
+        "VisitorQualification_LLM_Mistral": "LeadScoring_Service",
+        "WebSearch_LLM_Tavily": "WebSearch_Service",
+        "SalesNotification_Filter": "AlertFiltering_Service",
+        "ObjectDetection_LLM_Mistral": "ObjectDetection_Service",
+        "LLMText_Whisper_Mistral": "SpeechToText_Service",
+        "CRM_Storage_Service": "VisitorStorage_Service",
+        "VisitorInteraction_Streamlit_UI": "UserInterface_Service"
+      },
+      "meta": {
+        "status": "success",
+        "model": "moonshotai/kimi-k2-instruct",
+        "input_tokens": 1134,
+        "output_tokens": 169
+      }
+    }
+  },
+  "comparison": {
+    "fallback_vs_bertopic": {
+      "total": 13,
+      "matching": 6,
+      "diverging": 7,
+      "agreement_rate": 0.462,
+      "diverging_details": [
+        {
+          "service": "DataStructuring_LLM_Mistral",
+          "fallback": "DataStructuring_Service",
+          "bertopic": "Visitor_Service"
+        },
+        {
+          "service": "LLMText_Whisper_Mistral",
+          "fallback": "LLMText_Service",
+          "bertopic": "Visitor_Service"
+        },
+        {
+          "service": "OCR_LLM_Mistral",
+          "fallback": "OCR_Service",
+          "bertopic": "Frame_Service"
+        },
+        {
+          "service": "ObjectDetection_LLM_Mistral",
+          "fallback": "ObjectDetection_Service",
+          "bertopic": "Frame_Service"
+        },
+        {
+          "service": "SalesNotification_Filter",
+          "fallback": "SalesNotification_Service",
+          "bertopic": "Score_Service"
+        },
+        {
+          "service": "VisitorQualification_LLM_Mistral",
+          "fallback": "VisitorQualification_Service",
+          "bertopic": "Score_Service"
+        },
+        {
+          "service": "WebSearch_LLM_Tavily",
+          "fallback": "WebSearch_Service",
+          "bertopic": "Visitor_Service"
+        }
+      ]
+    },
+    "fallback_vs_llm_kimi": {
+      "total": 13,
+      "matching": 4,
+      "diverging": 9,
+      "agreement_rate": 0.308,
+      "diverging_details": [
+        {
+          "service": "AudioRecording_NAOqi_Pepper",
+          "fallback": "AudioRecording_Service",
+          "llm_kimi": "AudioCapture_Service"
+        },
+        {
+          "service": "CRM_Storage_Service",
+          "fallback": "CRM_Service",
+          "llm_kimi": "VisitorStorage_Service"
+        },
+        {
+          "service": "LLMText_Whisper_Mistral",
+          "fallback": "LLMText_Service",
+          "llm_kimi": "SpeechToText_Service"
+        },
+        {
+          "service": "OCR_LLM_Mistral",
+          "fallback": "OCR_Service",
+          "llm_kimi": "TextExtraction_Service"
+        },
+        {
+          "service": "Robot_Behavior_Interaction",
+          "fallback": "Robot_Service",
+          "llm_kimi": "RobotMotion_Service"
+        },
+        {
+          "service": "SalesNotification_Filter",
+          "fallback": "SalesNotification_Service",
+          "llm_kimi": "AlertFiltering_Service"
+        },
+        {
+          "service": "TextToSpeech_NAOqi_Pepper",
+          "fallback": "TextToSpeech_Service",
+          "llm_kimi": "SpeechOutput_Service"
+        },
+        {
+          "service": "VisitorInteraction_Streamlit_UI",
+          "fallback": "VisitorInteraction_Service",
+          "llm_kimi": "UserInterface_Service"
+        },
+        {
+          "service": "VisitorQualification_LLM_Mistral",
+          "fallback": "VisitorQualification_Service",
+          "llm_kimi": "LeadScoring_Service"
+        }
+      ]
+    },
+    "bertopic_vs_llm_kimi": {
+      "total": 13,
+      "matching": 1,
+      "diverging": 12,
+      "agreement_rate": 0.077,
+      "diverging_details": [
+        {
+          "service": "AudioRecording_NAOqi_Pepper",
+          "bertopic": "AudioRecording_Service",
+          "llm_kimi": "AudioCapture_Service"
+        },
+        {
+          "service": "CRM_Storage_Service",
+          "bertopic": "CRM_Service",
+          "llm_kimi": "VisitorStorage_Service"
+        },
+        {
+          "service": "DataStructuring_LLM_Mistral",
+          "bertopic": "Visitor_Service",
+          "llm_kimi": "DataStructuring_Service"
+        },
+        {
+          "service": "LLMText_Whisper_Mistral",
+          "bertopic": "Visitor_Service",
+          "llm_kimi": "SpeechToText_Service"
+        },
+        {
+          "service": "OCR_LLM_Mistral",
+          "bertopic": "Frame_Service",
+          "llm_kimi": "TextExtraction_Service"
+        },
+        {
+          "service": "ObjectDetection_LLM_Mistral",
+          "bertopic": "Frame_Service",
+          "llm_kimi": "ObjectDetection_Service"
+        },
+        {
+          "service": "Robot_Behavior_Interaction",
+          "bertopic": "Robot_Service",
+          "llm_kimi": "RobotMotion_Service"
+        },
+        {
+          "service": "SalesNotification_Filter",
+          "bertopic": "Score_Service",
+          "llm_kimi": "AlertFiltering_Service"
+        },
+        {
+          "service": "TextToSpeech_NAOqi_Pepper",
+          "bertopic": "TextToSpeech_Service",
+          "llm_kimi": "SpeechOutput_Service"
+        },
+        {
+          "service": "VisitorInteraction_Streamlit_UI",
+          "bertopic": "VisitorInteraction_Service",
+          "llm_kimi": "UserInterface_Service"
+        },
+        {
+          "service": "VisitorQualification_LLM_Mistral",
+          "bertopic": "Score_Service",
+          "llm_kimi": "LeadScoring_Service"
+        },
+        {
+          "service": "WebSearch_LLM_Tavily",
+          "bertopic": "Visitor_Service",
+          "llm_kimi": "WebSearch_Service"
+        }
+      ]
+    }
+  },
+  "dataframe_rows": [
+    {
+      "comparison": "fallback_vs_bertopic",
+      "grouper_a": "fallback",
+      "grouper_b": "bertopic",
+      "total": 13,
+      "matching": 6,
+      "diverging": 7,
+      "agreement_rate": 0.462,
+      "latency_a_ms": 0.006,
+      "latency_b_ms": 12953.3,
+      "speedup_a_over_b": 2158883.3
+    },
+    {
+      "comparison": "fallback_vs_llm_kimi",
+      "grouper_a": "fallback",
+      "grouper_b": "llm_kimi",
+      "total": 13,
+      "matching": 4,
+      "diverging": 9,
+      "agreement_rate": 0.308,
+      "latency_a_ms": 0.006,
+      "latency_b_ms": 3399.39,
+      "speedup_a_over_b": 566565.0
+    },
+    {
+      "comparison": "bertopic_vs_llm_kimi",
+      "grouper_a": "bertopic",
+      "grouper_b": "llm_kimi",
+      "total": 13,
+      "matching": 1,
+      "diverging": 12,
+      "agreement_rate": 0.077,
+      "latency_a_ms": 12953.3,
+      "latency_b_ms": 3399.39,
+      "speedup_a_over_b": 0.3
+    }
+  ]
+}

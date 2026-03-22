@@ -1,0 +1,454 @@
+{
+  "meta": {
+    "generated_at": "2026-03-19T03:31:03.617124Z",
+    "docker_user": "anonymous-bpacc",
+    "total_services": 13,
+    "errors": [],
+    "standardized_at": "2026-03-19T05:03:25.346667Z",
+    "theta_bt": 3,
+    "operational_grouper": "fallback",
+    "total_abstract_classes": 13
+  },
+  "abstract_classes": {
+    "OCR_Service": [
+      "OCR_LLM_Mistral"
+    ],
+    "DataStructuring_Service": [
+      "DataStructuring_LLM_Mistral"
+    ],
+    "VisitorQualification_Service": [
+      "VisitorQualification_LLM_Mistral"
+    ],
+    "WebSearch_Service": [
+      "WebSearch_LLM_Tavily"
+    ],
+    "SalesNotification_Service": [
+      "SalesNotification_Filter"
+    ],
+    "ObjectDetection_Service": [
+      "ObjectDetection_LLM_Mistral"
+    ],
+    "AudioRecording_Service": [
+      "AudioRecording_NAOqi_Pepper"
+    ],
+    "VideoCapture_Service": [
+      "VideoCapture_NAOqi_Pepper"
+    ],
+    "LLMText_Service": [
+      "LLMText_Whisper_Mistral"
+    ],
+    "TextToSpeech_Service": [
+      "TextToSpeech_NAOqi_Pepper"
+    ],
+    "CRM_Service": [
+      "CRM_Storage_Service"
+    ],
+    "VisitorInteraction_Service": [
+      "VisitorInteraction_Streamlit_UI"
+    ],
+    "Robot_Service": [
+      "Robot_Behavior_Interaction"
+    ]
+  },
+  "services": [
+    {
+      "image": "bpacc-ocr",
+      "id": "OCR_LLM_Mistral",
+      "type": "processing",
+      "description": "Extracts text from a base64-encoded video frame using a multimodal LLM with OpenCV preprocessing. Designed for badge and document reading in visitor qualification workflows. Biometric data must not leave the edge.",
+      "version": "1",
+      "inputs": [
+        "video_base64"
+      ],
+      "outputs": [
+        "text_detected",
+        "text"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "50ms"
+      },
+      "governance": {
+        "data_locality": "edge-only"
+      },
+      "Res": null,
+      "abstract_class": "OCR_Service",
+      "super_class": "Sp",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-data-structuring",
+      "id": "DataStructuring_LLM_Mistral",
+      "type": "processing",
+      "description": "Converts unstructured raw text from various sources (OCR, voice, web) into a standardized JSON visitor profile for CRM ingestion.",
+      "version": "1",
+      "inputs": [
+        "raw_text",
+        "source_context"
+      ],
+      "outputs": [
+        "first_name",
+        "last_name",
+        "company",
+        "job_title",
+        "email",
+        "social_url",
+        "context_notes"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "none"
+      },
+      "Res": null,
+      "abstract_class": "DataStructuring_Service",
+      "super_class": "Sp",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-qualification",
+      "id": "VisitorQualification_LLM_Mistral",
+      "type": "processing",
+      "description": "Evaluates a structured visitor profile using a B2B lead scoring prompt to assign a qualification score and category.",
+      "version": "1",
+      "inputs": [
+        "first_name",
+        "last_name",
+        "company",
+        "job_title",
+        "email",
+        "social_url",
+        "context_notes"
+      ],
+      "outputs": [
+        "score",
+        "category",
+        "justification",
+        "action_recommended"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "none"
+      },
+      "Res": null,
+      "abstract_class": "VisitorQualification_Service",
+      "super_class": "Sp",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-web-search",
+      "id": "WebSearch_LLM_Tavily",
+      "type": "processing",
+      "description": "Performs internet search via Tavily and structures the results using a LangChain-orchestrated LLM to build a visitor profile.",
+      "version": "1",
+      "inputs": [
+        "name"
+      ],
+      "outputs": [
+        "status",
+        "first_name",
+        "last_name",
+        "job",
+        "education",
+        "other"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "none"
+      },
+      "Res": null,
+      "abstract_class": "WebSearch_Service",
+      "super_class": "Sp",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-notification",
+      "id": "SalesNotification_Filter",
+      "type": "processing",
+      "description": "Filters visitor profiles based on a qualification threshold (score >= 75) and formats a contextual alert for the sales representative.",
+      "version": "1",
+      "inputs": [
+        "first_name",
+        "last_name",
+        "company",
+        "job_title",
+        "score",
+        "category",
+        "context_notes"
+      ],
+      "outputs": [
+        "notified_sales",
+        "notification_message",
+        "timestamp"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "none"
+      },
+      "Res": null,
+      "abstract_class": "SalesNotification_Service",
+      "super_class": "Sp",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-object-detection",
+      "id": "ObjectDetection_LLM_Mistral",
+      "type": "processing",
+      "description": "Processes a base64-encoded video frame using a multimodal LLM to detect the presence of a described object. Returns a binary detection result with optional visual description.",
+      "version": "1",
+      "inputs": [
+        "video_base64",
+        "object_to_detect"
+      ],
+      "outputs": [
+        "object_detected",
+        "description"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "edge-preferred"
+      },
+      "Res": null,
+      "abstract_class": "ObjectDetection_Service",
+      "super_class": "Sp",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-audio-recording",
+      "id": "AudioRecording_NAOqi_Pepper",
+      "type": "sensing",
+      "description": "Records audio from Pepper robot microphones via NAOqi ALAudioRecorder SDK. Produces a WAV file transferred to local storage via SCP. Requires physical proximity to Pepper endpoint. Raw audio data must not leave the edge.",
+      "version": "1",
+      "inputs": [
+        "duration_seconds"
+      ],
+      "outputs": [
+        "file_path",
+        "duration_seconds"
+      ],
+      "placement": [
+        "endpoint",
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "edge-only"
+      },
+      "Res": null,
+      "abstract_class": "AudioRecording_Service",
+      "super_class": "Ss",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-video-capture",
+      "id": "VideoCapture_NAOqi_Pepper",
+      "type": "sensing",
+      "description": "Records 2D or 3D video from Pepper robot cameras via NAOqi ALVideoRecorder SDK. Produces an AVI file transferred to local storage via SCP.",
+      "version": "1",
+      "inputs": [
+        "duration_seconds"
+      ],
+      "outputs": [
+        "status",
+        "sensor",
+        "file_path"
+      ],
+      "placement": [
+        "endpoint",
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "edge-preferred"
+      },
+      "Res": null,
+      "abstract_class": "VideoCapture_Service",
+      "super_class": "Ss",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-llm-text",
+      "id": "LLMText_Whisper_Mistral",
+      "type": "processing",
+      "description": "Transcribes audio input using local Whisper STT model and generates a contextual response via NVIDIA LLM API. Operates as Pepper conversational backend for visitor interaction workflows. At least one of audio or text input is required.",
+      "version": "1",
+      "inputs": [
+        "audio_base64",
+        "text"
+      ],
+      "outputs": [
+        "transcription",
+        "response"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "edge-preferred"
+      },
+      "Res": null,
+      "abstract_class": "LLMText_Service",
+      "super_class": "Sp",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-tts",
+      "id": "TextToSpeech_NAOqi_Pepper",
+      "type": "actuation",
+      "description": "Actuates Pepper robot speakers via NAOqi ALTextToSpeech SDK. Converts text to audible speech on the physical robot. Requires direct network access to Pepper endpoint via NAOqi port 9559. Cannot be offloaded to Edge or Cloud.",
+      "version": "1",
+      "inputs": [
+        "text_to_say"
+      ],
+      "outputs": [
+        "status",
+        "text_spoken"
+      ],
+      "placement": [
+        "endpoint"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "endpoint-only"
+      },
+      "Res": null,
+      "abstract_class": "TextToSpeech_Service",
+      "super_class": "Sa",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-crm-storage",
+      "id": "CRM_Storage_Service",
+      "type": "storage",
+      "description": "Service de persistance des données visiteurs qualifiés. Gère l'écriture incrémentale dans la base CSV.",
+      "version": "1",
+      "inputs": [
+        "first_name",
+        "last_name",
+        "company",
+        "job_title",
+        "score",
+        "category",
+        "interaction_notes"
+      ],
+      "outputs": [
+        "status",
+        "message"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "low"
+      },
+      "governance": {
+        "data_locality": "strict"
+      },
+      "Res": null,
+      "abstract_class": "CRM_Service",
+      "super_class": "Sd",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-streamlit-ui",
+      "id": "VisitorInteraction_Streamlit_UI",
+      "type": "interaction",
+      "description": "Human-facing interface for process management, visitor consent, and sales handoff interaction.",
+      "version": "1",
+      "inputs": [
+        "user_task_key",
+        "variables"
+      ],
+      "outputs": [
+        "completion_status"
+      ],
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "qos": {
+        "latency": "standard"
+      },
+      "governance": {
+        "data_locality": "none"
+      },
+      "Res": null,
+      "abstract_class": "VisitorInteraction_Service",
+      "super_class": "Si",
+      "standardization_method": "fallback"
+    },
+    {
+      "image": "bpacc-robot-actuation",
+      "id": "Robot_Behavior_Interaction",
+      "type": "actuation",
+      "description": "Actuation service for Pepper robot. Manages expressive behaviors including ALBasicAwareness (tracking), ALMotion (postures), and ALAnimatedSpeech (gestures synchronized with speech). Requires physical network proximity to Pepper on port 9559.",
+      "version": "1",
+      "inputs": [
+        "behavior_id",
+        "text_to_say"
+      ],
+      "outputs": [
+        "status",
+        "executed_behavior"
+      ],
+      "placement": [
+        "endpoint"
+      ],
+      "qos": {
+        "latency": "low"
+      },
+      "governance": {
+        "data_locality": "endpoint-only"
+      },
+      "Res": null,
+      "abstract_class": "Robot_Service",
+      "super_class": "Sa",
+      "standardization_method": "fallback"
+    }
+  ]
+}

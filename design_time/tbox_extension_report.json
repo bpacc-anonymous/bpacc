@@ -1,0 +1,469 @@
+{
+  "meta": {
+    "generated_at": "2026-03-19T06:56:11.037317Z",
+    "t0_path": "bpacc_t0.ttl",
+    "catalog_path": "capability_catalog_standardized.json",
+    "tn_path": "bpacc_tn.ttl",
+    "total_latency_ms": 11388.01
+  },
+  "summary": {
+    "t0_classes": 16,
+    "tn_classes": 29,
+    "kn_admitted": 13,
+    "kn_rejected": 0,
+    "contradiction_tests_pass": 1,
+    "contradiction_tests_fail": 2,
+    "guarantee_validated": false
+  },
+  "admitted": [
+    {
+      "class": "OCR_Service",
+      "parent": "ProcessingService",
+      "super_cls_code": "Sp",
+      "implementations": [
+        "OCR_LLM_Mistral"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "edge-only"
+        ],
+        "latencies": [
+          "50ms"
+        ],
+        "latency_profile": "critical",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "video_base64"
+        ]
+      },
+      "hermit_ms": 553.72,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "DataStructuring_Service",
+      "parent": "ProcessingService",
+      "super_cls_code": "Sp",
+      "implementations": [
+        "DataStructuring_LLM_Mistral"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "none"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "raw_text",
+          "source_context"
+        ]
+      },
+      "hermit_ms": 639.53,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "VisitorQualification_Service",
+      "parent": "ProcessingService",
+      "super_cls_code": "Sp",
+      "implementations": [
+        "VisitorQualification_LLM_Mistral"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "none"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "first_name",
+          "last_name",
+          "company",
+          "job_title",
+          "email",
+          "social_url",
+          "context_notes"
+        ]
+      },
+      "hermit_ms": 638.33,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "WebSearch_Service",
+      "parent": "ProcessingService",
+      "super_cls_code": "Sp",
+      "implementations": [
+        "WebSearch_LLM_Tavily"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "none"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "name"
+        ]
+      },
+      "hermit_ms": 628.78,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "SalesNotification_Service",
+      "parent": "ProcessingService",
+      "super_cls_code": "Sp",
+      "implementations": [
+        "SalesNotification_Filter"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "none"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "first_name",
+          "last_name",
+          "company",
+          "job_title",
+          "score",
+          "category",
+          "context_notes"
+        ]
+      },
+      "hermit_ms": 624.71,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "ObjectDetection_Service",
+      "parent": "ProcessingService",
+      "super_cls_code": "Sp",
+      "implementations": [
+        "ObjectDetection_LLM_Mistral"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "edge-preferred"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "video_base64",
+          "object_to_detect"
+        ]
+      },
+      "hermit_ms": 651.21,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "AudioRecording_Service",
+      "parent": "SensingService",
+      "super_cls_code": "Ss",
+      "implementations": [
+        "AudioRecording_NAOqi_Pepper"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge",
+          "endpoint"
+        ],
+        "data_locality": [
+          "edge-only"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "duration_seconds"
+        ]
+      },
+      "hermit_ms": 640.41,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "VideoCapture_Service",
+      "parent": "SensingService",
+      "super_cls_code": "Ss",
+      "implementations": [
+        "VideoCapture_NAOqi_Pepper"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge",
+          "endpoint"
+        ],
+        "data_locality": [
+          "edge-preferred"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "duration_seconds"
+        ]
+      },
+      "hermit_ms": 662.79,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "LLMText_Service",
+      "parent": "ProcessingService",
+      "super_cls_code": "Sp",
+      "implementations": [
+        "LLMText_Whisper_Mistral"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "edge-preferred"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "audio_base64",
+          "text"
+        ]
+      },
+      "hermit_ms": 674.07,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "TextToSpeech_Service",
+      "parent": "ActuationService",
+      "super_cls_code": "Sa",
+      "implementations": [
+        "TextToSpeech_NAOqi_Pepper"
+      ],
+      "metadata": {
+        "placements": [
+          "endpoint"
+        ],
+        "data_locality": [
+          "endpoint-only"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EndpointNode",
+        "inputs": [
+          "text_to_say"
+        ]
+      },
+      "hermit_ms": 667.59,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "CRM_Service",
+      "parent": "StorageService",
+      "super_cls_code": "Sd",
+      "implementations": [
+        "CRM_Storage_Service"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "strict"
+        ],
+        "latencies": [
+          "low"
+        ],
+        "latency_profile": "critical",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "first_name",
+          "last_name",
+          "company",
+          "job_title",
+          "score",
+          "category",
+          "interaction_notes"
+        ]
+      },
+      "hermit_ms": 696.77,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "VisitorInteraction_Service",
+      "parent": "InteractionService",
+      "super_cls_code": "Si",
+      "implementations": [
+        "VisitorInteraction_Streamlit_UI"
+      ],
+      "metadata": {
+        "placements": [
+          "cloud",
+          "edge"
+        ],
+        "data_locality": [
+          "none"
+        ],
+        "latencies": [
+          "standard"
+        ],
+        "latency_profile": "standard",
+        "target_node": "EdgeNode",
+        "inputs": [
+          "user_task_key",
+          "variables"
+        ]
+      },
+      "hermit_ms": 804.0,
+      "admitted": true,
+      "test_type": "nominal"
+    },
+    {
+      "class": "Robot_Service",
+      "parent": "ActuationService",
+      "super_cls_code": "Sa",
+      "implementations": [
+        "Robot_Behavior_Interaction"
+      ],
+      "metadata": {
+        "placements": [
+          "endpoint"
+        ],
+        "data_locality": [
+          "endpoint-only"
+        ],
+        "latencies": [
+          "low"
+        ],
+        "latency_profile": "critical",
+        "target_node": "EndpointNode",
+        "inputs": [
+          "behavior_id",
+          "text_to_say"
+        ]
+      },
+      "hermit_ms": 889.28,
+      "admitted": true,
+      "test_type": "nominal"
+    }
+  ],
+  "rejected": [],
+  "contradiction_tests": [
+    {
+      "class": "TextToSpeech_BadPlacement_Service",
+      "super_class": "Sa",
+      "parent": "ActuationService",
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "data_locality": [
+        "edge-only"
+      ],
+      "axiom_tested": "ActuationService allValuesFrom EndpointNode violated by edge/cloud placement",
+      "expected": "rejected",
+      "actual": "admitted",
+      "passed": false,
+      "hermit_ms": 784.5,
+      "hermit_error": null,
+      "admitted": true,
+      "test_type": "contradiction"
+    },
+    {
+      "class": "OCR_GoodPlacement_Service",
+      "super_class": "Sp",
+      "parent": "ProcessingService",
+      "placement": [
+        "edge",
+        "cloud"
+      ],
+      "data_locality": [
+        "edge-only"
+      ],
+      "axiom_tested": "ProcessingService allValuesFrom EdgeNode ⊔ CloudNode — placement conforme",
+      "expected": "admitted",
+      "actual": "admitted",
+      "passed": true,
+      "hermit_ms": 1057.81,
+      "hermit_error": null,
+      "admitted": true,
+      "test_type": "contradiction"
+    },
+    {
+      "class": "Processing_EndpointOnly_Service",
+      "super_class": "Sp",
+      "parent": "ProcessingService",
+      "placement": [
+        "endpoint"
+      ],
+      "data_locality": [
+        "none"
+      ],
+      "axiom_tested": "ProcessingService allValuesFrom EdgeNode ⊔ CloudNode violated by endpoint placement",
+      "expected": "rejected",
+      "actual": "admitted",
+      "passed": false,
+      "hermit_ms": 720.86,
+      "hermit_error": null,
+      "admitted": true,
+      "test_type": "contradiction"
+    }
+  ]
+}

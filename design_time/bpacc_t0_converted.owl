@@ -1,0 +1,548 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rdf:RDF
+   xmlns:dcterms="http://purl.org/dc/terms/"
+   xmlns:owl="http://www.w3.org/2002/07/owl#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+   xmlns:skos="http://www.w3.org/2004/02/skos/core#"
+>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#hasGovernanceConstraint">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">has governance constraint</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://bpacc.bpacc.com/ontology#GovernanceConstraint"/>
+    <skos:definition xml:lang="en">Relates a service to its local governance constraints Pc.</skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b27">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b28"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#implementsCapability">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">implements capability</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://bpacc.bpacc.com/ontology#AbstractCapability"/>
+    <skos:definition xml:lang="en">
+        Relates a concrete service implementation to its abstract capability
+        class in K. Enables abstract/instance separation (Section III-A-2).
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#ProcessingService">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b14"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b18"/>
+    <rdfs:label xml:lang="en">Processing Service</rdfs:label>
+    <skos:definition xml:lang="en">
+        Super-class Sp. Services that transform, analyze, or enrich data.
+        Placement: Edge ∪ Cloud — requires compute capacity above Endpoint tier.
+        Examples: OCR, LLM inference, web search, lead scoring, object detection.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#serviceId">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">service ID</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <skos:definition xml:lang="en">Unique identifier of the service, corresponds to M(s).id.</skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#EdgeNode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b45"/>
+    <rdfs:label xml:lang="en">Edge Node</rdfs:label>
+    <skos:definition xml:lang="en">
+        Tier E — Edge gateways, local compute clusters.
+        Medium capacity. Receives offloaded workloads from Endpoints.
+        In BPACC use case: Intel Core i7 gateway (16GB RAM, RKE2).
+    </skos:definition>
+    <skos:example xml:lang="en">Edge gateway, local Kubernetes cluster, fog node</skos:example>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#targetNode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">target node</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <skos:definition xml:lang="en">
+        Suggested target continuum node tier for this capability.
+        Encodes Pc (local governance constraint) in the Capability Profile.
+        Used by B1 for contextual matching and by B3 for fvalidate.
+        Final placement is resolved by the scheduler at runtime via Meligible.
+        Not an OWL restriction — descriptive, queryable via SPARQL.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Ontology"/>
+    <owl:imports rdf:resource="http://www.w3.org/ns/sosa/"/>
+    <dcterms:title rdf:datatype="http://www.w3.org/2001/XMLSchema#string">BPACC Base TBox Ontology</dcterms:title>
+    <dcterms:description rdf:datatype="http://www.w3.org/2001/XMLSchema#string">
+        Base TBox for the BPACC architecture (Business Process Aware Computing Continuum).
+        Extends SOSA/SSN with compute continuum topology, service taxonomy,
+        placement axioms, and governance constraints.
+        Reference: Al-Dulaimy et al., Internet of Things, vol. 27, 2024.
+    </dcterms:description>
+    <dcterms:creator rdf:datatype="http://www.w3.org/2001/XMLSchema#string">Anonymous Author</dcterms:creator>
+    <owl:versionInfo rdf:datatype="http://www.w3.org/2001/XMLSchema#string">0.2.0</owl:versionInfo>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#canOffloadTo">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">can offload to</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <rdfs:range rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <skos:definition xml:lang="en">
+        Directed offloading relation between continuum tiers.
+        Axioms: P→E, P→C, E→C (from [1]).
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#paramType">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">parameter type</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#InputParameter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <skos:definition xml:lang="en">
+        Expected XSD data type of the parameter.
+        Allowed values: 'string', 'float', 'boolean', 'integer'.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#nodeCapacity">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">node capacity</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#integer"/>
+    <skos:definition xml:lang="en">
+        Abstract capacity score of a continuum node.
+        Encodes the invariant Cap(x) &lt; Cap(y) &lt; Cap(z)
+        for x∈P, y∈E, z∈C from [1].
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b18">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#isDeployedOn"/>
+    <owl:allValuesFrom rdf:nodeID="n30ca8f3e052743a889489f8372607640b19"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#GovernanceConstraint">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Governance Constraint</rdfs:label>
+    <skos:definition xml:lang="en">
+        A governance rule r ∈ Rlocal applicable to a service.
+        Evaluated by B3 (Business Policy Repository) via fvalidate.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#ContinuumNode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/sosa/Platform"/>
+    <rdfs:label xml:lang="en">Continuum Node</rdfs:label>
+    <skos:definition xml:lang="en">
+        An execution node in the compute continuum.
+        Subclasses correspond to the three tiers defined in [1]:
+        Endpoint (P), Edge (E), Cloud (C).
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b13">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#isDeployedOn"/>
+    <owl:allValuesFrom rdf:resource="http://bpacc.bpacc.com/ontology#EndpointNode"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#SensingService">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/sosa/Sensor"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b8"/>
+    <rdfs:label xml:lang="en">Sensing Service</rdfs:label>
+    <skos:definition xml:lang="en">
+        Super-class Ss. Services that capture data from the physical world.
+        Placement: Endpoint ∪ Edge ∪ Cloud (all three tiers).
+        Examples: audio recording, video capture, environmental sensors.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b30">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#isDeployedOn"/>
+    <owl:someValuesFrom rdf:nodeID="n30ca8f3e052743a889489f8372607640b31"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b3">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EdgeNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b4"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b21">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b10">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EndpointNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b11"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#dataLocality">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">data locality</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <skos:definition xml:lang="en">
+        Data placement constraint for GDPR compliance. Encodes Pc.
+        Allowed values: 'edge-only', 'endpoint-only', 'edge-preferred',
+        'cloud-only', 'none', 'strict'.
+        Maps to governance.data_locality in the Capability Contract payload.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b11">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EdgeNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b12"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b25">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#ActuationService">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:subClassOf rdf:resource="http://www.w3.org/ns/sosa/Actuator"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b13"/>
+    <rdfs:label xml:lang="en">Actuation Service</rdfs:label>
+    <skos:definition xml:lang="en">
+        Super-class Sa. Services that act on the physical world.
+        Placement: Endpoint only — actuation requires physical proximity.
+        Examples: text-to-speech on robot, motor control, relay actuation.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b8">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#isDeployedOn"/>
+    <owl:someValuesFrom rdf:nodeID="n30ca8f3e052743a889489f8372607640b9"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b44">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b4">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#CloudNode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b46"/>
+    <rdfs:label xml:lang="en">Cloud Node</rdfs:label>
+    <skos:definition xml:lang="en">
+        Tier C — Cloud data centers, on-premise clusters.
+        Highest capacity. Receives offloaded workloads from Endpoints and Edge.
+        In BPACC use case: on-premise cluster (~150 vCPU, 2.1TB RAM, Harvester/Rancher).
+    </skos:definition>
+    <skos:example xml:lang="en">AWS EC2, on-premise Kubernetes cluster, HPC node</skos:example>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#latencyProfile">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">latency profile</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <skos:definition xml:lang="en">
+        QoS latency tier for the service. Encodes Qc in the Capability Profile.
+        Allowed values: 'critical', 'standard', 'best-effort'.
+        Maps to qos.latency in the Capability Contract payload.
+        Used by B1 for contextual matching and by B3 for fvalidate.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b42">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b43"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#StorageService">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b22"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b26"/>
+    <rdfs:label xml:lang="en">Storage Service</rdfs:label>
+    <skos:definition xml:lang="en">
+        Super-class Sd. Services that persist or retrieve data.
+        Placement: Edge ∪ Cloud — persistent storage requires stable infrastructure.
+        Examples: CRM, database, file storage.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b28">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EdgeNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b29"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#InteractionService">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b30"/>
+    <rdfs:label xml:lang="en">Interaction Service</rdfs:label>
+    <skos:definition xml:lang="en">
+        Super-class Si. Services that interface with human users.
+        Placement: Endpoint ∪ Edge ∪ Cloud (all three tiers).
+        Examples: Streamlit UI, dashboard, consent form, sales handoff interface.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b36">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#SensingService"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b37"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b46">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#canOffloadTo"/>
+    <owl:maxCardinality rdf:datatype="http://www.w3.org/2001/XMLSchema#nonNegativeInteger">0</owl:maxCardinality>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b26">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#isDeployedOn"/>
+    <owl:allValuesFrom rdf:nodeID="n30ca8f3e052743a889489f8372607640b27"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#CapabilityProfile">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Capability Profile</rdfs:label>
+    <skos:definition xml:lang="en">
+        A Capability Profile c ∈ K as defined in Section III-A-2:
+        c = ⟨ID, Ic, Qc, Pc⟩
+        - ID  : semantic identifier (AbstractCapability IRI)
+        - Ic  : required functional input parameters (hasInputParameter)
+        - Qc  : applicable SLOs (latencyProfile)
+        - Pc  : local governance constraints (dataLocality, targetNode, region)
+        Serialized as a Capability Contract JSON payload for B1 and B3.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#serviceVersion">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">service version</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b45">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#canOffloadTo"/>
+    <owl:someValuesFrom rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b22">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#isDeployedOn"/>
+    <owl:someValuesFrom rdf:nodeID="n30ca8f3e052743a889489f8372607640b23"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b20">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EdgeNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b21"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#RegionConstraint">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#GovernanceConstraint"/>
+    <rdfs:label xml:lang="en">Region Constraint</rdfs:label>
+    <skos:definition xml:lang="en">
+        Constrains the geographic region of the deployment node.
+        GDPR use case: personal data must remain within EU territory.
+        B1 contextualises this from business constraints in the BPMN.
+        B3 verifies compliance at artifact validation time.
+        Maps to governance.region in the Capability Contract payload.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b43">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EdgeNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b44"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#isDeployedOn">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">is deployed on</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <skos:definition xml:lang="en">
+        Relates a ContinuumService instance to the ContinuumNode on which
+        it is deployed. Used by HermiT to enforce placement axioms at ABox level.
+        The scheduler selects the concrete instance at runtime via Meligible.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b24">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EdgeNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b25"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#DataLocalityConstraint">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#GovernanceConstraint"/>
+    <rdfs:label xml:lang="en">Data Locality Constraint</rdfs:label>
+    <skos:definition xml:lang="en">
+        Constrains where data produced or consumed by a service may reside.
+        GDPR use case: biometric data must not leave the Edge.
+        Maps to governance.data_locality in the Capability Contract payload.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#ContinuumService">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Continuum Service</rdfs:label>
+    <skos:definition xml:lang="en">
+        Top-level class for all invocable services in the BPACC taxonomy.
+        Excludes operational infrastructure services (Sop) per the
+        Exclusion property of the reference model [1].
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#paramName">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">parameter name</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#InputParameter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <skos:definition xml:lang="en">
+        Technical variable name (key) used in the Capability Contract params payload.
+        Example: 'video_base64', 'duration_seconds', 'text_to_say'.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#region">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">region</rdfs:label>
+    <rdfs:domain rdf:nodeID="n30ca8f3e052743a889489f8372607640b5"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <skos:definition xml:lang="en">
+        Geographic region constraint for GDPR compliance. Encodes Pc.
+        Allowed values: 'eu', 'fr', 'us', 'ap', etc.
+        On ContinuumService : required deployment region for this capability.
+        On ContinuumNode    : actual region of the node.
+        B1 contextualises this from business constraints expressed in the BPMN.
+        B3 verifies that the artifact's node region matches the service constraint.
+        Maps to governance.region in the Capability Contract payload.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b6">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b7"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b7">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b41">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#canOffloadTo"/>
+    <owl:someValuesFrom rdf:nodeID="n30ca8f3e052743a889489f8372607640b42"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b39">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#StorageService"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b40"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b5">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b6"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b17">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b9">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b10"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b31">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b32"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b35">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+    <owl:members rdf:nodeID="n30ca8f3e052743a889489f8372607640b36"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b16">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EdgeNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b17"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#paramLabel">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#DatatypeProperty"/>
+    <rdfs:label xml:lang="en">parameter label</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#InputParameter"/>
+    <rdfs:range rdf:resource="http://www.w3.org/2001/XMLSchema#string"/>
+    <skos:definition xml:lang="en">
+        Human-readable label displayed in Camunda Modeler for the Business Analyst.
+        Example: 'Image Source (base64 encoded)', 'Recording Duration (seconds)'.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b19">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b20"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#InputParameter">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Input Parameter</rdfs:label>
+    <skos:definition xml:lang="en">
+        Describes a parameter required by a capability at runtime.
+        Encodes Ic in the Capability Profile.
+        Serialized as the params field of the Capability Contract payload.
+        Properties: paramName (key), paramLabel (Camunda label), paramType (XSD type).
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#EndpointNode">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:subClassOf rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumNode"/>
+    <rdfs:subClassOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b41"/>
+    <rdfs:label xml:lang="en">Endpoint Node</rdfs:label>
+    <skos:definition xml:lang="en">
+        Tier P — IoT endpoints, embedded devices, robots.
+        Lowest capacity tier. Cannot offload to other Endpoints.
+        In BPACC use case: SoftBank Pepper robot (Intel Atom E3845, 4GB RAM).
+    </skos:definition>
+    <skos:example xml:lang="en">SoftBank Pepper, Raspberry Pi, Arduino</skos:example>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#hasInputParameter">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#ObjectProperty"/>
+    <rdfs:label xml:lang="en">has input parameter</rdfs:label>
+    <rdfs:domain rdf:resource="http://bpacc.bpacc.com/ontology#ContinuumService"/>
+    <rdfs:range rdf:resource="http://bpacc.bpacc.com/ontology#InputParameter"/>
+    <skos:definition xml:lang="en">
+        Relates a ContinuumService to its required functional input parameters Ic.
+        Used by B1 to populate the params field of the Capability Contract.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b29">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b40">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#InteractionService"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b32">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EndpointNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b33"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b23">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b24"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b14">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Restriction"/>
+    <owl:onProperty rdf:resource="http://bpacc.bpacc.com/ontology#isDeployedOn"/>
+    <owl:someValuesFrom rdf:nodeID="n30ca8f3e052743a889489f8372607640b15"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b34">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:about="http://bpacc.bpacc.com/ontology#AbstractCapability">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <rdfs:label xml:lang="en">Abstract Capability</rdfs:label>
+    <skos:definition xml:lang="en">
+        An abstract service capability in K.
+        Identified by a semantic ID in the TBox.
+        Implemented by one or more concrete ContinuumService instances.
+        The Business Analyst interacts only with AbstractCapability,
+        never with concrete implementations.
+    </skos:definition>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b15">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#Class"/>
+    <owl:unionOf rdf:nodeID="n30ca8f3e052743a889489f8372607640b16"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b12">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#CloudNode"/>
+    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b2">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EndpointNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b3"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b38">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#ProcessingService"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b39"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b33">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#EdgeNode"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b34"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b37">
+    <rdf:first rdf:resource="http://bpacc.bpacc.com/ontology#ActuationService"/>
+    <rdf:rest rdf:nodeID="n30ca8f3e052743a889489f8372607640b38"/>
+  </rdf:Description>
+  <rdf:Description rdf:nodeID="n30ca8f3e052743a889489f8372607640b1">
+    <rdf:type rdf:resource="http://www.w3.org/2002/07/owl#AllDisjointClasses"/>
+    <owl:members rdf:nodeID="n30ca8f3e052743a889489f8372607640b2"/>
+  </rdf:Description>
+</rdf:RDF>
