@@ -80,3 +80,9 @@ Main dependencies to install manually:
 uv pip install langgraph chromadb pyzeebe pika owlready2 rdflib requests python-dotenv
 ```
 
+
+## Note on B3 — Business Policy Repository
+
+B3 (OPA Gatekeeper as Validating Admission Webhook with Rego rules) is not included
+in this release. Its formal properties are established by construction in the paper (Section III-C3)
+and evaluated qualitatively in Section IV-E.
