@@ -1,0 +1,17 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pepper-conflict-compliant
+  annotations:
+    bpacc.io/data-type: "biometric"
+    bpacc.io/consent: "true"
+    bpacc.io/pc-locality: "edge-preferred"
+    bpacc.io/rglobal-locality: "edge-only"
+    bpacc.io/target-tier: "edge"
+spec:
+  nodeSelector:
+    topology.kubernetes.io/region: "eu-west"
+  containers:
+    - name: whisper-stt
+      image: alpine
+      command: ["sleep", "3600"]

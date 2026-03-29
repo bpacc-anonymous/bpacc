@@ -1,0 +1,15 @@
+# test_scenario4_violation.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pepper-biometric-violation-region
+  annotations:
+    bpacc.io/data-type: "biometric"
+    bpacc.io/consent: "true"
+spec:
+  nodeSelector:
+    topology.kubernetes.io/region: "us-east-1"
+  containers:
+    - name: whisper-stt
+      image: alpine
+      command: ["sleep", "3600"]

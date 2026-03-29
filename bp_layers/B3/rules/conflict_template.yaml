@@ -1,0 +1,28 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: rgpdconflict
+spec:
+  crd:
+    spec:
+      names:
+        kind: RgpdConflict
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package rgpdconflict
+
+        # R3 — Rglobal takes precedence over Pc when conflict detected
+        # Art. 5§1(f) + Art. 24§1 + Art. 24§2
+        # If Pc says "edge-preferred" but Rglobal says "edge-only",
+        # the artifact must comply with the stricter rule (edge-only)
+
+        violation[{"msg": msg}] {
+          pc_locality := input.review.object.metadata.annotations["bpacc.io/pc-locality"]
+          rglobal_locality := input.review.object.metadata.annotations["bpacc.io/rglobal-locality"]
+          pc_locality == "edge-preferred"
+          rglobal_locality == "edge-only"
+          tier := input.review.object.metadata.annotations["bpacc.io/target-tier"]
+          tier != "edge"
+          msg := "RGPD Art.5§1(f) + Art.24: Rglobal policy (edge-only) takes precedence over local profile constraint (edge-preferred) — artifact must target edge tier"
+        }

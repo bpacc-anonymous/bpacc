@@ -1,0 +1,5 @@
+Situation,Applicable Article,Operational Rule
+"Biometric data, EU on-premise node",Art. 9§1 + 9§2(a),Permitted if and only if explicit consent flag is present in the artifact
+"Biometric data, EU Cloud node (e.g. AWS eu-west)",Art. 9§1 + Art. 44,Permitted if adequacy decision + explicit consent
+"Biometric data, non-EU Cloud node (e.g. AWS us-east)",Art. 9§1 + Art. 44-46,Prohibited without appropriate safeguards
+"Non-biometric personal data, non-EU node",Art. 44-46,Prohibited without adequacy decision or appropriate safeguards

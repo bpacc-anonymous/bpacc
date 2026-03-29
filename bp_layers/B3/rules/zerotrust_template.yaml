@@ -1,0 +1,51 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: bpacczerotrust
+spec:
+  crd:
+    spec:
+      names:
+        kind: BpaccZeroTrust
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package bpacczerotrust
+
+        # R0a — annotation bpacc.io/data-type absente → rejet
+        # Zero-Trust : l'absence de preuve de conformité est une violation.
+        # Un artifact sans annotation ne peut pas avoir été produit
+        # par le Smart Listener via le flux B2→B4→B3 nominal.
+        violation[{"msg": msg}] {
+          not input.review.object.metadata.annotations["bpacc.io/data-type"]
+          msg := "BPACC B3 Zero-Trust: annotation bpacc.io/data-type is missing — artifact rejected. Only artifacts produced by the BPACC Smart Listener are admitted."
+        }
+
+        # R0b — annotation bpacc.io/data-type présente mais valeur 'unknown'
+        # Le Smart Listener applique le fallback Zero-Trust (consent=false,
+        # data_type=unknown) lorsqu'il ne peut pas lire les variables Zeebe.
+        # B3 doit rejeter explicitement ce cas pour que le fallback soit
+        # conservateur de bout en bout.
+        violation[{"msg": msg}] {
+          data_type := input.review.object.metadata.annotations["bpacc.io/data-type"]
+          data_type == "unknown"
+          msg := "BPACC B3 Zero-Trust: data-type annotation is 'unknown' — Zeebe variables could not be resolved by the Smart Listener. Artifact rejected by deny-by-default policy."
+        }
+
+        # R0c — annotation bpacc.io/consent absente → rejet
+        # Symétrique de R0a pour le consentement : tout artifact sans
+        # annotation consent explicite est rejeté, indépendamment du data_type.
+        violation[{"msg": msg}] {
+          not input.review.object.metadata.annotations["bpacc.io/consent"]
+          msg := "BPACC B3 Zero-Trust: annotation bpacc.io/consent is missing — artifact rejected. Consent annotation must be explicitly set by the Smart Listener."
+        }
+
+        # R0d — annotation bpacc.io/consent présente mais valeur 'false'
+        # Le Smart Listener pose consent=false en fallback Zero-Trust.
+        # B3 rejette ce cas explicitement : un artifact avec consent=false
+        # ne doit jamais atteindre le scheduler, quelle que soit la donnée.
+        violation[{"msg": msg}] {
+          consent := input.review.object.metadata.annotations["bpacc.io/consent"]
+          consent == "false"
+          msg := "BPACC B3 Zero-Trust: consent annotation is 'false' — artifact rejected. Explicit consent (bpacc.io/consent: 'true') is required for all BPACC-managed deployments."
+        }

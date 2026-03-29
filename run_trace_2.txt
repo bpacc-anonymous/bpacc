@@ -1,0 +1,494 @@
+(bpacc) anonymous@anonymous bpacc % python3 bpacc_orchestrator.py
+  DEBUG CONNECTORS_DIR=/home/bpacc/capability_profiles_builder/design_time/camunda-templates
+  DEBUG exists=True
+
+=== [1/3] Démarrage de l'Infrastructure BPACC ===
+  Smart Listener démarré sur bpacc.queue.edge
+  Smart Listener démarré sur bpacc.queue.endpoint
+2026-03-29 17:15:16,306 [INFO] Client Kubernetes initialisé (kubeconfig local).
+2026-03-29 17:15:16,306 [INFO] Client Kubernetes initialisé (kubeconfig local).
+2026-03-29 17:15:16,308 [INFO] Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2026-03-29 17:15:16,308 [INFO] Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2026-03-29 17:15:16,308 [INFO] Socket connected: <socket.socket fd=8, family=30, type=1, proto=6, laddr=('::1', 65384, 0, 0), raddr=('::1', 5672, 0, 0)>
+2026-03-29 17:15:16,308 [INFO] Socket connected: <socket.socket fd=8, family=30, type=1, proto=6, laddr=('::1', 65385, 0, 0), raddr=('::1', 5672, 0, 0)>
+2026-03-29 17:15:16,308 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105ccde20>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105ccde20> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2026-03-29 17:15:16,309 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x108f546e0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x108f546e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2026-03-29 17:15:16,338 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105ccde20> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:15:16,338 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105ccde20> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:15:16,338 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x108f546e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:15:16,338 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x108f546e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:15:16,338 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105ccde20> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:15:16,338 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x108f546e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:15:16,338 [INFO] Created channel=1
+2026-03-29 17:15:16,339 [INFO] Created channel=1
+2026-03-29 17:15:16,344 [INFO] Smart Listener v2 opérationnel — écoute sur bpacc.queue.edge
+2026-03-29 17:15:16,344 [INFO] Smart Listener v2 opérationnel — écoute sur bpacc.queue.endpoint
+2026-03-29 17:15:16,344 [INFO]   Zeebe REST           : http://localhost:8088
+2026-03-29 17:15:16,344 [INFO]   K8s NS               : default
+2026-03-29 17:15:16,344 [INFO]   Zeebe REST           : http://localhost:8088
+2026-03-29 17:15:16,344 [INFO]   process_instance_key : (non défini — Zero-Trust)
+2026-03-29 17:15:16,344 [INFO]   K8s NS               : default
+2026-03-29 17:15:16,344 [INFO]   process_instance_key : (non défini — Zero-Trust)
+=== Infrastructure Prête (mode Zero-Trust) ===
+
+=== [2/3] Lancement de B1 (Business Intent Converter) ===
+Requête : 'I need to qualify visitors at a tech conference using a Pepper robot.'
+
+  [intent_reformulator] governance_constraints extrait :
+    region          = eu
+    latency         = low
+    target_node     = EdgeNode
+    data_type       = personal
+    consent         = true
+    data_locality   = edge-only
+  [task_decomposer] 1/28 — Robot greets visitor
+  [task_decomposer] 2/28 — Robot explains qualification process
+  [task_decomposer] 3/28 — Robot requests GDPR consent
+  [task_decomposer] 4/28 — Visitor gives explicit consent
+  [task_decomposer] 5/28 — Robot asks for badge scan
+  [task_decomposer] 6/28 — Visitor presents badge to scanner
+  [task_decomposer] 7/28 — Robot reads badge data
+  [task_decomposer] 8/28 — Robot extracts name from badge
+  [task_decomposer] 9/28 — Robot extracts email from badge
+  [task_decomposer] 10/28 — Robot extracts company from badge
+  [task_decomposer] 11/28 — Robot offers manual input option
+  [task_decomposer] 12/28 — Visitor chooses manual input
+  [task_decomposer] 13/28 — Robot prompts for name
+  [task_decomposer] 14/28 — Visitor enters name
+  [task_decomposer] 15/28 — Robot prompts for email
+  [task_decomposer] 16/28 — Visitor enters email
+  [task_decomposer] 17/28 — Robot prompts for company
+  [task_decomposer] 18/28 — Visitor enters company
+  [task_decomposer] 19/28 — Robot sends data to edge server
+  [task_decomposer] 20/28 — Edge server receives data
+  [task_decomposer] 21/28 — Edge server validates visitor
+  [task_decomposer] 22/28 — Edge server returns validation result
+  [task_decomposer] 23/28 — Robot receives validation result
+  [task_decomposer] 24/28 — Robot displays success message
+  [task_decomposer] 25/28 — Robot generates QR code
+  [task_decomposer] 26/28 — Robot displays QR code
+  [task_decomposer] 27/28 — Robot notifies nearby staff
+  [task_decomposer] 28/28 — Staff receives notification
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights: 100%|████████████████████████████████████████████████████████████| 103/103 [00:00<00:00, 6903.49it/s]
+BertModel LOAD REPORT from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  [retriever] Robot greets visitor                → Robot_Service                  distance=0.3691 ✓
+  [retriever] Robot explains qualification process → Robot_Service                  distance=0.4038 ✓
+  [retriever] Robot requests GDPR consent         → Robot_Service                  distance=0.383 ✓
+  [retriever] Visitor gives explicit consent      → TextToSpeech_Service           distance=0.4584 ✓
+  [retriever] Robot asks for badge scan           → Robot_Service                  distance=0.4112 ✓
+  [retriever] Visitor presents badge to scanner   → OCR_Service                    distance=0.5705 ✓
+  [retriever] Robot reads badge data              → VideoCapture_Service           distance=0.5279 ✓
+  [retriever] Robot extracts name from badge      → Robot_Service                  distance=0.4715 ✓
+  [retriever] Robot extracts email from badge     → Robot_Service                  distance=0.4391 ✓
+  [retriever] Robot extracts company from badge   → Robot_Service                  distance=0.5067 ✓
+  [retriever] Robot offers manual input option    → Robot_Service                  distance=0.3716 ✓
+  [retriever] Visitor chooses manual input        → Robot_Service                  distance=0.4611 ✓
+  [retriever] Robot prompts for name              → TextToSpeech_Service           distance=0.4807 ✓
+  [retriever] Visitor enters name                 → TextToSpeech_Service           distance=0.3991 ✓
+  [retriever] Robot prompts for email             → Robot_Service                  distance=0.4418 ✓
+  [retriever] Visitor enters email                → TextToSpeech_Service           distance=0.4053 ✓
+  [retriever] Robot prompts for company           → TextToSpeech_Service           distance=0.4739 ✓
+  [retriever] Visitor enters company              → TextToSpeech_Service           distance=0.4158 ✓
+  [retriever] Robot sends data to edge server     → Robot_Service                  distance=0.425 ✓
+  [retriever] Edge server receives data           → VisitorInteraction_Service     distance=0.5492 ✓
+  [retriever] Edge server validates visitor       → VisitorQualification_Service   distance=0.4787 ✓
+  [retriever] Edge server returns validation result → Robot_Service                  distance=0.5421 ✓
+  [retriever] Robot receives validation result    → Robot_Service                  distance=0.3968 ✓
+  [retriever] Robot displays success message      → Robot_Service                  distance=0.3684 ✓
+  [retriever] Robot generates QR code             → Robot_Service                  distance=0.4709 ✓
+  [retriever] Robot displays QR code              → Robot_Service                  distance=0.4401 ✓
+  [retriever] Robot notifies nearby staff         → Robot_Service                  distance=0.3077 ✓
+  [retriever] Staff receives notification         → Robot_Service                  distance=0.466 ✓
+
+  [task_consolidator] 16 tâches consolidées (28 matchées → 16 finales)
+  [task_consolidator] 0 tâche(s) supprimée(s)
+  [task_consolidator] All original tasks had matching capabilities, so none were dropped. Sequential automated tasks executed by the same serv...
+
+  [task_consolidator] DEBUG dépendances :
+    'Robot greets and explains qualification process' → deps=[]
+    'Robot requests GDPR consent' → deps=['Robot greets and explains qualification process']
+    'Visitor gives explicit consent' → deps=['Robot requests GDPR consent']
+    'Robot asks for badge scan' → deps=['Visitor gives explicit consent']
+    'Visitor presents badge to scanner' → deps=['Robot asks for badge scan']
+    'Robot reads badge data' → deps=['Visitor presents badge to scanner']
+    'Robot extracts visitor data from badge' → deps=['Robot reads badge data']
+    'Robot offers manual input option' → deps=['Robot extracts visitor data from badge']
+    'Visitor chooses manual input' → deps=['Robot offers manual input option']
+    'Robot prompts for and collects manual visitor data' → deps=['Visitor chooses manual input']
+    'Robot sends data to edge server' → deps=['Robot prompts for and collects manual visitor data']
+    'Edge server receives and validates visitor' → deps=['Robot sends data to edge server']
+    'Robot receives validation result' → deps=['Edge server receives and validates visitor']
+    'Robot displays success message and QR code' → deps=['Robot receives validation result']
+    'Robot notifies nearby staff' → deps=['Robot receives validation result']
+    'Staff receives notification' → deps=['Robot notifies nearby staff']
+  [instance_resolver] catalogue raw : 13 services → 13 classes abstraites
+  [instance_resolver] ✓ Robot greets and explains qualification process → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Robot requests GDPR consent                   → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Visitor gives explicit consent                → TextToSpeech_NAOqi_Pepper
+  [instance_resolver] ✓ Robot asks for badge scan                     → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Visitor presents badge to scanner             → OCR_LLM_Mistral
+  [instance_resolver] ✓ Robot reads badge data                        → VideoCapture_NAOqi_Pepper
+  [instance_resolver] ✓ Robot extracts visitor data from badge        → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Robot offers manual input option              → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Visitor chooses manual input                  → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Robot prompts for and collects manual visitor data → TextToSpeech_NAOqi_Pepper
+  [instance_resolver] ✓ Robot sends data to edge server               → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Edge server receives and validates visitor    → VisitorInteraction_Streamlit_UI
+  [instance_resolver] ✓ Robot receives validation result              → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Robot displays success message and QR code    → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Robot notifies nearby staff                   → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Staff receives notification                   → Robot_Behavior_Interaction
+
+  [instance_resolver] 16/16 tâches résolues (0 non résolues)
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot greets and explains qualification process → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot requests GDPR consent              → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-texttospeech.json
+  [connector_loader] ✓ Visitor gives explicit consent           → bpacc-texttospeech.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot asks for badge scan                → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-ocr.json
+  [connector_loader] ✓ Visitor presents badge to scanner        → bpacc-ocr.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-videocapture.json
+  [connector_loader] ✓ Robot reads badge data                   → bpacc-videocapture.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot extracts visitor data from badge   → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot offers manual input option         → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Visitor chooses manual input             → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-texttospeech.json
+  [connector_loader] ✓ Robot prompts for and collects manual visitor data → bpacc-texttospeech.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot sends data to edge server          → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-visitorinteraction.json
+  [connector_loader] ✓ Edge server receives and validates visitor → bpacc-visitorinteraction.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot receives validation result         → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot displays success message and QR code → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Robot notifies nearby staff              → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Staff receives notification              → bpacc-robot.json
+  [bpmn_generator] 1/16 — Robot greets and explains qualification process
+  [bpmn_generator] 2/16 — Robot requests GDPR consent
+  [bpmn_generator] 3/16 — Visitor gives explicit consent
+  [bpmn_generator] 4/16 — Robot asks for badge scan
+  [bpmn_generator] 5/16 — Visitor presents badge to scanner
+  [bpmn_generator] 6/16 — Robot reads badge data
+  [bpmn_generator] 7/16 — Robot extracts visitor data from badge
+  [bpmn_generator] 8/16 — Robot offers manual input option
+  [bpmn_generator] 9/16 — Visitor chooses manual input
+  [bpmn_generator] 10/16 — Robot prompts for and collects manual visitor data
+  [bpmn_generator] 11/16 — Robot sends data to edge server
+  [bpmn_generator] 12/16 — Edge server receives and validates visitor
+  [bpmn_generator] 13/16 — Robot receives validation result
+  [bpmn_generator] 14/16 — Robot displays success message and QR code
+  [bpmn_generator] 15/16 — Robot notifies nearby staff
+  [bpmn_generator] 16/16 — Staff receives notification
+  [bpmn_generator] assemblage Python déterministe...
+  [bpmn_generator] ✓ BPMN assemblé — 28905 chars
+  [bpmn_validator] ✓ BPMN valide
+
+  [persist_bpmn] ✓ BPMN       → /home/bpacc/output/bpacc_process_20260329_173010.bpmn
+  [persist_bpmn] ✓ Rapport    → /home/bpacc/output/bpacc_process_20260329_173010.json
+  [persist_bpmn] ✓ Latest     → /home/bpacc/output/bpacc_process_latest.bpmn
+  [persist_bpmn] bpmn_valid=True | 16 tâches | 0 gap(s)
+
+  [response_generator] status=success
+  The BPMN for ‘Pepper robot stationed at the entrance’ is complete and valid. All 28 tasks were successfully mapped to existing services, covering greeting, consent capture, badge scanning (with OCR fallback), manual data entry, visitor qualification, and final QR-code hand-off to staff. No capability gaps remain.
+
+══════════════════════════════════════════════════════════════════════
+  BPACC — RAPPORT AU BUSINESS ANALYST
+══════════════════════════════════════════════════════════════════════
+
+  Statut        : ✅  SUCCÈS COMPLET
+  BPMN valide   : ✓ oui
+  Fichier BPMN  : /home/bpacc/output/bpacc_process_20260329_173010.bpmn
+
+──────────────────────────────────────────────────────────────────────
+  CONTRAINTES DE GOUVERNANCE EXTRAITES DU USER INTENT
+
+    Région géographique            : eu
+    Profil de latence              : low
+    Tier cible                     : EdgeNode
+    Type de données                : personal
+    Consentement explicite         : true
+    Localisation des données       : edge-only
+
+──────────────────────────────────────────────────────────────────────
+  RÉSUMÉ
+
+    The BPMN for ‘Pepper robot stationed at the entrance’ is complete
+    and valid. All 28 tasks were successfully mapped to existing
+    services, covering greeting, consent capture, badge scanning (with
+    OCR fallback), manual data entry, visitor qualification, and final
+    QR-code hand-off to staff. No capability gaps remain.
+
+──────────────────────────────────────────────────────────────────────
+  TÂCHES GÉNÉRÉES DANS LE BPMN (16)
+
+     1. [automated] Robot greets and explains qualification process
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : —
+     2. [automated] Robot requests GDPR consent
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Robot greets and explains qualification process
+     3. [human    ] Visitor gives explicit consent
+          Abstrait  : TextToSpeech_Service
+          Instance  : TextToSpeech_NAOqi_Pepper (bpacc-tts)
+          Dépend    : Robot requests GDPR consent
+     4. [automated] Robot asks for badge scan
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Visitor gives explicit consent
+     5. [human    ] Visitor presents badge to scanner
+          Abstrait  : OCR_Service
+          Instance  : OCR_LLM_Mistral (bpacc-ocr)
+          Dépend    : Robot asks for badge scan
+     6. [automated] Robot reads badge data
+          Abstrait  : VideoCapture_Service
+          Instance  : VideoCapture_NAOqi_Pepper (bpacc-video-capture)
+          Dépend    : Visitor presents badge to scanner
+     7. [automated] Robot extracts visitor data from badge
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Robot reads badge data
+     8. [automated] Robot offers manual input option
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Robot extracts visitor data from badge
+     9. [human    ] Visitor chooses manual input
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Robot offers manual input option
+    10. [human    ] Robot prompts for and collects manual visitor data
+          Abstrait  : TextToSpeech_Service
+          Instance  : TextToSpeech_NAOqi_Pepper (bpacc-tts)
+          Dépend    : Visitor chooses manual input
+    11. [automated] Robot sends data to edge server
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Robot prompts for and collects manual visitor data
+    12. [automated] Edge server receives and validates visitor
+          Abstrait  : VisitorInteraction_Service
+          Instance  : VisitorInteraction_Streamlit_UI (bpacc-streamlit-ui)
+          Dépend    : Robot sends data to edge server
+    13. [automated] Robot receives validation result
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Edge server receives and validates visitor
+    14. [automated] Robot displays success message and QR code
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Robot receives validation result
+    15. [automated] Robot notifies nearby staff
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Robot receives validation result
+    16. [human    ] Staff receives notification
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Robot notifies nearby staff
+
+──────────────────────────────────────────────────────────────────────
+  ✅  Aucun capability gap — toutes les tâches sont couvertes.
+
+──────────────────────────────────────────────────────────────────────
+  PROCHAINES ÉTAPES
+
+    The process is ready for deployment. The Business Analyst can hand
+    the BPMN over to the operations team for testing with real
+    visitors and final sign-off.
+
+══════════════════════════════════════════════════════════════════════
+  VALIDATION REQUISE
+
+  Répondez :
+    yes              → approuve et lance le déploiement Zeebe
+    no <justification> → rejette et notifie le Continuum Engineer
+══════════════════════════════════════════════════════════════════════
+
+
+[Orchestrateur] B1 en pause — interrupt human_validator atteint.
+[Orchestrateur] Tâches : ['Robot greets and explains qualification process', 'Robot requests GDPR consent', 'Visitor gives explicit consent', 'Robot asks for badge scan', 'Visitor presents badge to scanner', 'Robot reads badge data', 'Robot extracts visitor data from badge', 'Robot offers manual input option', 'Visitor chooses manual input', 'Robot prompts for and collects manual visitor data', 'Robot sends data to edge server', 'Edge server receives and validates visitor', 'Robot receives validation result', 'Robot displays success message and QR code', 'Robot notifies nearby staff', 'Staff receives notification']
+[Orchestrateur] Gaps   : []
+[Orchestrateur] BPMN valide : True
+
+=== [3/3] Approbation et Déploiement ===
+[Orchestrateur] Simulation validation Business Analyst → approved
+
+
+  [resume_b1] reprise du graph — validation_status=approved
+  [human_validator] validation_status=approved
+  [zeebe_deployer] ── DEBUG CONNECTIVITÉ ──
+  [zeebe_deployer] ZEEBE_REST_URL  = http://localhost:8088
+  [zeebe_deployer] DEPLOY_ENDPOINT = http://localhost:8088/v2/deployments
+  [zeebe_deployer] Sonde topology  → http://localhost:8088/v2/topology
+  [zeebe_deployer] topology HTTP 200
+  [zeebe_deployer] brokers actifs : 1
+    broker 0 — 172.19.0.3:26501 version=8.8.11
+  [zeebe_deployer] ─────────────────────────
+  [zeebe_deployer] source       : fichier → bpacc_process_20260329_173010.bpmn
+  [zeebe_deployer] taille       : 28905 chars
+  [zeebe_deployer] POST http://localhost:8088/v2/deployments
+  [zeebe_deployer] HTTP 200
+  [zeebe_deployer] headers réponse : {'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'pragma': 'no-cache', 'expires': '0', 'x-frame-options': 'SAMEORIGIN', 'content-security-policy': "default-src 'self'; base-uri 'self'; script-src 'self' https: *.chargebee.com *.mixpanel.com ajax.cloudflare.com static.cloudflareinsights.com; script-src-elem 'self' cdn.jsdelivr.net ; connect-src 'self' https: *.mixpanel.com cloudflareinsights.com *.appcues.net wss://api.appcues.net cdn.jsdelivr.net; style-src 'self' https: 'unsafe-inline' cdn.jsdelivr.net *.googleapis.com *.chargebee.com; img-src data: 'self'; form-action 'self'; frame-ancestors 'self'; frame-src 'self' https: *.chargebee.com blob: ; object-src 'self' blob:; font-src 'self' data: fonts.camunda.io cdn.jsdelivr.net; worker-src 'self' blob:; child-src; script-src-attr 'none'", 'referrer-policy': 'strict-origin-when-cross-origin', 'permissions-policy': 'accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=(), browsing-topics=(), camera=(), compute-pressure=(), cross-origin-isolated=(), deferred-fetch=(), deferred-fetch-minimal=(), display-capture=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), language-detector=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), summarizer=(), translator=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()', 'cross-origin-opener-policy': 'same-origin-allow-popups', 'cross-origin-embedder-policy': 'unsafe-none', 'cross-origin-resource-policy': 'same-site', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'date': 'Sun, 29 Mar 2026 15:30:33 GMT', 'keep-alive': 'timeout=60', 'connection': 'keep-alive'}
+  [zeebe_deployer] payload réponse : {'tenantId': '<default>', 'deploymentKey': '2251799816580399', 'deployments': [{'processDefinition': {'processDefinitionId': 'Process_1a67b227', 'processDefinitionVersion': 1, 'resourceName': 'bpacc_process_20260329_173010.bpmn', 'tenantId': '<default>', 'processDefinitionKey': '2251799816580400'}}]}
+  [zeebe_deployer] ✓ Déployé avec succès
+    processDefinitionKey : 2251799816580400
+    processDefinitionId  : Process_1a67b227
+    version              : 1
+    Operate              : http://localhost:8088/operate
+  [zeebe_instance_launcher] process_definition_key = '2251799816580400'
+  [zeebe_instance_launcher] process_id             = 'Process_1a67b227'
+  [zeebe_instance_launcher] variables gouvernance ← governance_constraints (state)
+    region='eu'  latency='low'  target_node='EdgeNode'
+    data_type='personal'  consent='true'  data_locality='edge-only'
+  [zeebe_instance_launcher] stratégie : processDefinitionKey=2251799816580400
+  [zeebe_instance_launcher] ── DEBUG PRÉ-LANCEMENT ──
+  [zeebe_instance_launcher] INSTANCES_ENDPOINT = http://localhost:8088/v2/process-instances
+  [zeebe_instance_launcher] payload (tronqué)  :
+    {
+      "processDefinitionKey": "2251799816580400",
+      "variables": {
+        "governance_region": "eu",
+        "governance_latency": "low",
+        "governance_target_node": "EdgeNode",
+        "governance_data_type": "personal",
+        "governance_consent": "true",
+        "governance_data_locality": "edge-only",
+        "process_title": "As a conference organizer, I want the Pepper robot stationed at the entrance to automatically qualify each arriving visitor so that only registered and eligible attendees can enter restricted zones or",
+        "task_count": 16,
+        "task_labels": [
+          "Robot greets and explains qualification process",
+          "Robot requests GDPR consent",
+          "Visitor gives explicit consent",
+          "Robot asks for badge scan",
+          "Visitor presents badge to scanner",
+          "Robot reads badge data",
+          "Robot extracts visitor data from badge",
+          "Robot offers manual input option",
+          "Visitor chooses manual input",
+          "Robot prompts for and collects manual visitor data",
+          "Robot sends data to edge server",
+          "Edge server receives and validates visitor",
+          "Robot receives validation result",
+          "Robot displays success message and QR code",
+          "Robot notifies nearby staff",
+          "Staff receives notification"
+        ],
+        "concrete_instance_ids": [
+    ... (50 lignes total)
+  [zeebe_instance_launcher] ─────────────────────────
+  [zeebe_instance_launcher] POST http://localhost:8088/v2/process-instances
+  [zeebe_instance_launcher] HTTP 200
+  [zeebe_instance_launcher] headers réponse : {'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'pragma': 'no-cache', 'expires': '0', 'x-frame-options': 'SAMEORIGIN', 'content-security-policy': "default-src 'self'; base-uri 'self'; script-src 'self' https: *.chargebee.com *.mixpanel.com ajax.cloudflare.com static.cloudflareinsights.com; script-src-elem 'self' cdn.jsdelivr.net ; connect-src 'self' https: *.mixpanel.com cloudflareinsights.com *.appcues.net wss://api.appcues.net cdn.jsdelivr.net; style-src 'self' https: 'unsafe-inline' cdn.jsdelivr.net *.googleapis.com *.chargebee.com; img-src data: 'self'; form-action 'self'; frame-ancestors 'self'; frame-src 'self' https: *.chargebee.com blob: ; object-src 'self' blob:; font-src 'self' data: fonts.camunda.io cdn.jsdelivr.net; worker-src 'self' blob:; child-src; script-src-attr 'none'", 'referrer-policy': 'strict-origin-when-cross-origin', 'permissions-policy': 'accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=(), browsing-topics=(), camera=(), compute-pressure=(), cross-origin-isolated=(), deferred-fetch=(), deferred-fetch-minimal=(), display-capture=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), language-detector=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), summarizer=(), translator=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()', 'cross-origin-opener-policy': 'same-origin-allow-popups', 'cross-origin-embedder-policy': 'unsafe-none', 'cross-origin-resource-policy': 'same-site', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'date': 'Sun, 29 Mar 2026 15:30:33 GMT', 'keep-alive': 'timeout=60', 'connection': 'keep-alive'}
+  [zeebe_instance_launcher] payload réponse : {'processDefinitionId': 'Process_1a67b227', 'processDefinitionVersion': 1, 'tenantId': '<default>', 'variables': {}, 'processDefinitionKey': '2251799816580400', 'processInstanceKey': '2251799816580401', 'tags': []}
+  [zeebe_instance_launcher] ✓ Instance lancée
+    processInstanceKey  : 2251799816580401
+    processDefinitionId : Process_1a67b227
+    version             : 1
+    Operate             : http://localhost:8088/operate
+
+══════════════════════════════════════════════════════════════════════
+  BPACC — RÉSULTAT FINAL
+══════════════════════════════════════════════════════════════════════
+
+  ✅  Déploiement Zeebe        : succès
+      processDefinitionKey      : 2251799816580400
+      processDefinitionId       : Process_1a67b227
+  ✅  Instance lancée          : succès
+      processInstanceKey        : 2251799816580401
+
+══════════════════════════════════════════════════════════════════════
+
+
+[Orchestrateur] Status final B1 : running
+[Orchestrateur] processInstanceKey : 2251799816580401
+
+[Orchestrateur] Redémarrage des Listeners avec PROCESS_INSTANCE_KEY=2251799816580401
+  PROCESS_INSTANCE_KEY=2251799816580401 injecté dans les Listeners
+  Smart Listener démarré sur bpacc.queue.edge
+  Smart Listener démarré sur bpacc.queue.endpoint
+2026-03-29 17:30:34,341 [INFO] Client Kubernetes initialisé (kubeconfig local).
+2026-03-29 17:30:34,341 [INFO] Client Kubernetes initialisé (kubeconfig local).
+2026-03-29 17:30:34,344 [INFO] Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2026-03-29 17:30:34,345 [INFO] Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2026-03-29 17:30:34,345 [INFO] Socket connected: <socket.socket fd=8, family=30, type=1, proto=6, laddr=('::1', 49325, 0, 0), raddr=('::1', 5672, 0, 0)>
+2026-03-29 17:30:34,345 [INFO] Socket connected: <socket.socket fd=8, family=30, type=1, proto=6, laddr=('::1', 49326, 0, 0), raddr=('::1', 5672, 0, 0)>
+2026-03-29 17:30:34,345 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x1184312e0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x1184312e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2026-03-29 17:30:34,345 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x101562ea0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x101562ea0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2026-03-29 17:30:34,349 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x1184312e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:30:34,349 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x1184312e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:30:34,349 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x1184312e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:30:34,349 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x101562ea0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:30:34,349 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x101562ea0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:30:34,349 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x101562ea0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 17:30:34,349 [INFO] Created channel=1
+2026-03-29 17:30:34,349 [INFO] Created channel=1
+2026-03-29 17:30:34,351 [INFO] Smart Listener v2 opérationnel — écoute sur bpacc.queue.edge
+2026-03-29 17:30:34,352 [INFO]   Zeebe REST           : http://localhost:8088
+2026-03-29 17:30:34,352 [INFO]   K8s NS               : default
+2026-03-29 17:30:34,352 [INFO]   process_instance_key : 2251799816580401
+2026-03-29 17:30:34,352 [INFO] Smart Listener v2 opérationnel — écoute sur bpacc.queue.endpoint
+2026-03-29 17:30:34,352 [INFO]   Zeebe REST           : http://localhost:8088
+2026-03-29 17:30:34,352 [INFO]   K8s NS               : default
+2026-03-29 17:30:34,352 [INFO]   process_instance_key : 2251799816580401
+2026-03-29 17:30:34,352 [INFO] 
+────────────────────────────────────────────────────────────
+[65858600] Execution Intent reçu (B2)
+2026-03-29 17:30:34,352 [INFO] [65858600] cap_id=bpacc:Robot_Service
+2026-03-29 17:30:34,464 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 17:30:34,465 [INFO]   [zeebe_vars] variables governance absentes (tentative 1/4) — retry dans 0.1s
+2026-03-29 17:30:34,596 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 17:30:34,596 [INFO]   [zeebe_vars] variables governance absentes (tentative 2/4) — retry dans 0.2s
+2026-03-29 17:30:34,827 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 17:30:34,828 [INFO]   [zeebe_vars] variables governance absentes (tentative 3/4) — retry dans 0.4s
+2026-03-29 17:30:35,290 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 17:30:35,290 [WARNING]   [zeebe_vars] variables governance toujours absentes après 4 tentatives — valeurs Zero-Trust appliquées
+2026-03-29 17:30:35,290 [INFO] [65858600] adraft prêt — image=bpacc-robot tier=endpoint data_type=unknown consent=false
+2026-03-29 17:30:35,290 [INFO] [65858600] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 17:30:35,339 [WARNING] [65858600] ❌ VERDICT B3 : REJECTED. B3 ADMISSION REJECTED: admission webhook "validation.gatekeeper.sh" denied the request: [bpacc-zerotrust-enforcement] BPACC B3 Zero-Trust: consent annotation is 'false' — artifact rejected. Explicit consent (bpacc.io/consent: 'true') is required for all BPACC-managed deployments.
+[bpacc-zerotrust-enforcement] BPACC B3 Zero-Trust: data-type annotation is 'unknown' — Zeebe variables could not be resolved by the Smart Listener. Artifact rejected by deny-by-default policy.
+/home/bpacc/bp_layers/smart_listener.py:319: DeprecationWarning: datetime.datetime.utcnow() is deprecated and scheduled for removal in a future version. Use timezone-aware objects to represent datetimes in UTC: datetime.datetime.now(datetime.UTC).
+  "timestamp": datetime.utcnow().isoformat() + "Z",
+2026-03-29 17:30:35,346 [INFO] 
+────────────────────────────────────────────────────────────
+[3082ad7c] Execution Intent reçu (B2)
+2026-03-29 17:30:35,346 [INFO] [3082ad7c] cap_id=bpacc:Robot_Service
+2026-03-29 17:30:35,397 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 17:30:35,397 [INFO]   [zeebe_vars] variables governance absentes (tentative 1/4) — retry dans 0.1s
+2026-03-29 17:30:35,531 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 17:30:35,531 [INFO]   [zeebe_vars] ✓ scopeKey=2251799816580401 (tentative 2) → data_type=personal consent=true
+2026-03-29 17:30:35,531 [INFO] [3082ad7c] adraft prêt — image=bpacc-robot tier=endpoint data_type=personal consent=true
+2026-03-29 17:30:35,531 [INFO] [3082ad7c] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 17:30:35,562 [INFO] [3082ad7c] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+[Orchestrateur] Listeners opérationnels — data_type + consent lus depuis Zeebe.
+
+[Orchestrateur] Instance Zeebe lancée. Le moteur exécute le BPMN → connecteur RabbitMQ → Smart Listener → OPA B3.
+Observez les logs ci-dessous (CTRL+C pour quitter)...
+
+--------------------------------------------------------------------------------
+[auto_complete] Démarrage sur instance 2251799816580401
+[rejection_monitor] Écoute sur bpacc.queue.rejected...
+
+────────────────────────────────────────────────────────────
+[B3 VERDICT] ❌  DENIED_BY_B3
+  cap_id    : bpacc:Robot_Service
+  intent_id : 65858600
+  reason    : B3 ADMISSION REJECTED: admission webhook "validation.gatekeeper.sh" denied the request: [bpacc-zerotrust-enforcement] BPACC B3 Zero-Trust: consent annotation is 'false' — artifact rejected. Explicit consent (bpacc.io/consent: 'true') is required for all BPACC-managed deployments.
+[bpacc-zerotrust-enforcement] BPACC B3 Zero-Trust: data-type annotation is 'unknown' — Zeebe variables could not be resolved by the Smart Listener. Artifact rejected by deny-by-default policy.
+  timestamp : 2026-03-29T15:30:35.341947Z
+────────────────────────────────────────────────────────────

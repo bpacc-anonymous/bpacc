@@ -1,0 +1,31 @@
+apiVersion: templates.gatekeeper.sh/v1
+kind: ConstraintTemplate
+metadata:
+  name: rgpdbiometric
+spec:
+  crd:
+    spec:
+      names:
+        kind: RgpdBiometric
+  targets:
+    - target: admission.k8s.gatekeeper.sh
+      rego: |
+        package rgpdbiometric
+
+        # R1 — Biometric data requires explicit consent (Art. 9§1 + 9§2a)
+        violation[{"msg": msg}] {
+          data_type := input.review.object.metadata.annotations["bpacc.io/data-type"]
+          data_type == "biometric"
+          consent := input.review.object.metadata.annotations["bpacc.io/consent"]
+          consent != "true" # La violation se déclenche si consent n'est pas strictement "true"
+          msg := "RGPD Art.9§1: biometric data requires explicit consent annotation (bpacc.io/consent: 'true')"
+        }
+
+        # R2 — Personal data cannot be routed to non-EU nodes (Art. 44-46)
+        violation[{"msg": msg}] {
+          data_type := input.review.object.metadata.annotations["bpacc.io/data-type"]
+          data_type == "biometric"
+          region := input.review.object.spec.nodeSelector["topology.kubernetes.io/region"]
+          not startswith(region, "eu")
+          msg := "RGPD Art.44-46: biometric data cannot be routed to non-EU node"
+        }

@@ -6,7 +6,13 @@ Règle Zeebe pour zeebe:input :
   - target="varName"         → variable process cible (OBLIGATOIRE, pas name=)
   - source="varName"         → variable process source
   - source="{{secrets.X}}"  → secret reference
-  - source="= {FEEL}"       → expression FEEL complexe
+  - source="= varName"       → expression FEEL simple (variable, path)
+  - source="= a + b"         → expression FEEL arithmétique
+
+  INTERDIT en source= :
+  - Objets JSON/FEEL complexes : source="= {\"key\": \"val\"}"  → SUPPRIMÉ
+  - Expressions vides           : source=""                      → SUPPRIMÉ
+  - Littéraux entre guillemets  : source="= 'foo'"              → dé-quoté → "foo"
 
 Normalisations post-LLM dans _normalize_fragment() :
   Fix 1 : <extensionElements> sans préfixe → <bpmn:extensionElements>
@@ -16,7 +22,10 @@ Normalisations post-LLM dans _normalize_fragment() :
   Fix 5 : <bpmn:UserTask> (majuscule) → <bpmn:userTask>
   Fix 6 : source="= 'literal'" ou source="= \"literal\"" → source="literal"
   Fix 7 : zeebe:input name="..." → zeebe:input target="..."
-  Fix 8 : caractères XML invalides dans source= (&, >, <, " non échappés)
+  Fix 8 : caractères XML invalides dans source= (&, >, < non échappés)
+  Fix 9 : source="= {FEEL object}" ou source="= {JSON object}" → SUPPRIMÉ
+           (les objets complexes ne sont pas des expressions FEEL valides
+            dans un attribut XML zeebe:input — Zeebe rejette le déploiement)
 """
 
 from __future__ import annotations
@@ -51,31 +60,75 @@ def _escape_xml_in_source(val: str) -> str:
     Échappe les caractères XML invalides dans une valeur source=.
     Ne touche pas les entités déjà échappées (&#34; &amp; etc.)
     """
-    # D'abord, dé-encoder les entités existantes pour travailler sur le texte brut
-    # puis ré-encoder proprement
-    # Stratégie : on ne touche que & < > non échappés
-    # & → &amp; (seulement si pas déjà &amp; ou &#...)
     val = re.sub(r'&(?!amp;|lt;|gt;|quot;|apos;|#)', '&amp;', val)
-    # < → &lt; (sauf dans les balises FEEL qui ne devraient pas en avoir)
     val = val.replace('<', '&lt;')
-    # > → &gt; (attention : >= est valide en FEEL mais invalide en XML attr)
-    # On ne remplace > que s'il n'est pas précédé d'= (pour >=)
-    # En FEEL, >= doit être écrit comme &gt;= dans un attribut XML
-    val = re.sub(r'(?<!=)>(?!=)', '&gt;', val)  # > mais pas >= ni =>
-    val = re.sub(r'>=', '&gt;=', val)            # >= → &gt;=
+    val = re.sub(r'(?<!=)>(?!=)', '&gt;', val)
+    val = re.sub(r'>=', '&gt;=', val)
     return val
+
+
+# ── Détection d'objet FEEL/JSON complexe ────────────────────────────────────
+
+def _is_complex_feel_object(feel: str) -> bool:
+    """
+    Retourne True si l'expression FEEL (sans le '= ' initial) est un objet
+    complexe que Zeebe ne peut pas évaluer comme source= d'un zeebe:input.
+
+    Cas bloquants :
+      - Objet littéral FEEL   : {cap_id: "foo", qos: {latency: "low"}}
+      - Objet JSON encodé     : {"cap_id": "foo"}
+      - Objet imbriqué        : {a: {b: c}}
+
+    Cas autorisés (retourne False) :
+      - Référence de variable : cap_id
+      - Path                  : order.amount
+      - Arithmétique          : a + b * 2
+      - Secret ref            : {{secrets.MY_KEY}}
+      - Contexte FEEL simple  : {key: variable}   ← NB : Zeebe l'accepte
+        MAIS si la valeur contient des guillemets/JSON → rejeté
+
+    Heuristique : si la chaîne commence par '{' ET contient ':' ET
+    contient au moins un '"' ou un '{' imbriqué → objet complexe → supprimer.
+    """
+    stripped = feel.strip()
+    if not stripped.startswith("{"):
+        return False
+    # Secret reference {{secrets.X}} — jamais un objet complexe, toujours conservé
+    if stripped.startswith("{{") and stripped.endswith("}}"):
+        return False
+    # Objet avec valeur littérale JSON (guillemets doubles dans les valeurs)
+    if '"' in stripped:
+        return True
+    # Objet imbriqué : présence d'un { après le premier caractère
+    if re.search(r'\{[^}]', stripped[1:]):
+        return True
+    # Objet avec valeur qui ressemble à un dict/list Python
+    if re.search(r':\s*[\[{]', stripped):
+        return True
+    return False
 
 
 def _fix_source_value(val: str) -> str | None:
     """
     Normalise la valeur source= d'un zeebe:input.
     Retourne None si l'input doit être supprimé.
+
+    Règles (par ordre de priorité) :
+      ""                          → None  (supprimé)
+      "varName"                   → "varName"  (inchangé)
+      "{{secrets.X}}"             → "{{secrets.X}}"  (inchangé)
+      "= 'literal'"               → "literal"  (dé-quoté)
+      "= \"literal\""             → "literal"  (dé-quoté)
+      "= {{secrets.X}}"           → "{{secrets.X}}"  (secret, strip =)
+      "= {complexObject}"         → None  (Fix 9 — objet complexe, supprimé)
+      "= varName" / "= a + b"     → "= varName" / "= a + b"  (FEEL simple, gardé)
     """
     if val == "":
         return None
 
+    # Pas une expression FEEL — variable reference ou secret brut
     if not val.startswith("="):
-        return val  # variable reference ou secret, pas de traitement FEEL
+        return val
 
     feel = val[1:].strip()
 
@@ -89,15 +142,16 @@ def _fix_source_value(val: str) -> str | None:
     if m:
         return m.group(1)
 
-    # = {{secrets.X}} → {{secrets.X}}
+    # = {{secrets.X}} → {{secrets.X}} (sans le =)
     if feel.startswith("{{") and feel.endswith("}}"):
         return feel
 
-    # = {FEEL complex object} → garder avec le =
-    if feel.startswith("{"):
-        return val
+    # Fix 9 — objet FEEL/JSON complexe → supprimé
+    if _is_complex_feel_object(feel):
+        print(f"  [bpmn_assembler] ⚠ source= complexe supprimé : {val[:80]!r}")
+        return None
 
-    # = varName.path → garder
+    # Expression FEEL simple (variable, path, arithmétique) → gardée telle quelle
     return val
 
 
@@ -105,11 +159,23 @@ def _normalize_input_tag(m: re.Match) -> str:
     """Normalise un zeebe:input complet. Retourne '' pour suppression."""
     tag = m.group(0)
 
+    # message.body est le payload RabbitMQ — Zeebe accepte les objets JSON
+    # comme valeur de ce champ spécifique. On ne le filtre jamais.
+    tgt_match = re.search(r'target="([^"]*)"', tag)
+    # Ces champs ont des valeurs fixes dans les connecteurs — jamais filtrés
+    _PASSTHROUGH_TARGETS = {
+        "message.body", "message.properties",
+        "authentication.authType", "authentication.uri",
+        "routing.exchange", "routing.routingKey",
+    }
+    if tgt_match and tgt_match.group(1) in _PASSTHROUGH_TARGETS:
+        return tag
+
     src_match = re.search(r'source="([^"]*)"', tag)
     if not src_match:
         return ""
 
-    val = src_match.group(1)
+    val   = src_match.group(1)
     fixed = _fix_source_value(val)
 
     if fixed is None:
@@ -126,6 +192,23 @@ def _normalize_input_tag(m: re.Match) -> str:
 
 def _normalize_fragment(fragment: str) -> str:
     """Normalise un fragment XML généré par le LLM pour le rendre conforme Zeebe."""
+
+    # Fix 10 — secrets mal formés par le LLM : {secrets.X} -> {{secrets.X}}
+    # Le LLM génère parfois une seule accolade au lieu de deux.
+    fragment = re.sub(
+        r"(?<!{){(secrets[.][A-Za-z0-9_]+)}(?!})",
+        r"{{\1}}",
+        fragment
+    )
+
+    # Fix 10 — secrets mal formés par le LLM : {secrets.X} → {{secrets.X}}
+    # Le LLM génère parfois une seule accolade au lieu de deux.
+    import re as _re
+    fragment = _re.sub(
+        r'(?<!\{)\{(secrets\.[A-Za-z0-9_]+)\}(?!\})',
+        r'{{}}',
+        fragment
+    )
 
     # Fix 1 — extensionElements sans préfixe bpmn:
     fragment = re.sub(r'<extensionElements(\s|>)', r'<bpmn:extensionElements\1', fragment)
@@ -155,11 +238,21 @@ def _normalize_fragment(fragment: str) -> str:
     fragment = re.sub(r'<bpmn:UserTask\b', '<bpmn:userTask', fragment)
     fragment = re.sub(r'</bpmn:UserTask>', '</bpmn:userTask>', fragment)
 
-    # Fix 4 + Fix 6 + Fix 8 — normalise source= et supprime les inputs invalides
+    # Fix 4 + Fix 6 + Fix 8 + Fix 9 — normalise source= et supprime les inputs invalides
     fragment = re.sub(r'<zeebe:input\b[^>]*/?>',  _normalize_input_tag, fragment)
 
     # Fix 7 — zeebe:input name="..." → zeebe:input target="..."
     fragment = re.sub(r'(<zeebe:input\s+)name=', r'\1target=', fragment)
+
+    # Fix 9b — zeebe:ioMapping vide après suppression des inputs → nettoyé
+    # Si une ioMapping ne contient plus que des espaces/newlines, on la retire
+    # pour éviter les éléments vides qui perturbent certains validateurs.
+    fragment = re.sub(
+        r'<zeebe:ioMapping>\s*</zeebe:ioMapping>',
+        '',
+        fragment,
+        flags=re.DOTALL
+    )
 
     return fragment
 
@@ -303,10 +396,10 @@ def assemble_bpmn(
             gw_x  = tx + TASK_W + H_GAP
             gw_y  = ty + TASK_H // 2 - GW_H // 2
             process_elements.append(
-                f'<bpmn:exclusiveGateway id="{gw_id}" name="" gatewayDirection="Diverging"/>'
+                f'<bpmn:parallelGateway id="{gw_id}" name="" gatewayDirection="Diverging"/>'
             )
             di_shapes.append(
-                f'<bpmndi:BPMNShape id="{gw_id}_di" bpmnElement="{gw_id}" isMarkerVisible="true">'
+                f'<bpmndi:BPMNShape id="{gw_id}_di" bpmnElement="{gw_id}">'
                 f'<dc:Bounds x="{gw_x}" y="{gw_y}" width="{GW_W}" height="{GW_H}"/>'
                 f'</bpmndi:BPMNShape>'
             )
@@ -331,7 +424,7 @@ def assemble_bpmn(
         gw_x   = tx - H_GAP - GW_W
         gw_y   = ty + TASK_H // 2 - GW_H // 2
         process_elements.append(
-            f'<bpmn:exclusiveGateway id="{gw_id}" name="" gatewayDirection="Converging"/>'
+            f'<bpmn:parallelGateway id="{gw_id}" name="" gatewayDirection="Converging"/>'
         )
         di_shapes.append(
             f'<bpmndi:BPMNShape id="{gw_id}_di" bpmnElement="{gw_id}" isMarkerVisible="true">'

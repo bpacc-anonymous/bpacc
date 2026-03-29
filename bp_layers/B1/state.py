@@ -1,12 +1,53 @@
 """
 BPACC - B1 Business Intent Converter
 State Definition (LangGraph 1.0)
+
+GovernanceConstraints porte les contraintes extraites du user intent.
+Ce sont les valeurs dynamiques qui instancient Qc au sens du papier :
+  - region        : vocabulaire contrôlé issu de Tₙ → {"eu", "us", "apac"}
+  - latency       : vocabulaire contrôlé issu du catalogue → {"critical", "standard", "best-effort", "low"}
+  - target_node   : vocabulaire contrôlé Tₙ → {"EndpointNode", "EdgeNode", "CloudNode"}
+  - data_type     : nature de la donnée traitée → {"biometric", "personal", "anonymous", "unknown"}
+  - consent       : consentement explicite exprimé par l'utilisateur → {"true", "false"}
+  - data_locality : contrainte de localisation exprimée → {"edge-only", "edge-preferred",
+                    "endpoint-only", "strict", "none"} — vocabulaire catalogue raw
 """
 
 from __future__ import annotations
-from typing import Annotated
+from typing import Annotated, Literal
 from typing_extensions import TypedDict
 from langgraph.graph.message import add_messages
+
+
+# ── Vocabulaires contrôlés (issus de Tₙ et du catalogue raw) ────────────────
+# Ces littéraux sont la source de vérité — aucune valeur libre n'est autorisée.
+
+RegionLiteral      = Literal["eu", "us", "apac"]
+LatencyLiteral     = Literal["critical", "standard", "best-effort", "low"]
+TargetNodeLiteral  = Literal["EndpointNode", "EdgeNode", "CloudNode"]
+DataTypeLiteral    = Literal["biometric", "personal", "anonymous", "unknown"]
+ConsentLiteral     = Literal["true", "false"]
+LocalityLiteral    = Literal["edge-only", "edge-preferred", "endpoint-only", "strict", "none"]
+
+
+class GovernanceConstraints(TypedDict, total=False):
+    """
+    Contraintes de gouvernance extraites du user intent par intent_reformulator.
+    Instancient Qc (SLOs) et complètent Pc (contraintes locales) au sens du papier.
+
+    Séparation design-time / runtime :
+      - data_locality est également encodé dans Pc (Tₙ, immuable par service).
+        Ici il représente la contrainte exprimée par l'utilisateur —
+        si elle est plus stricte que Pc, c'est la valeur utilisateur qui s'applique.
+      - region, latency, target_node sont purement dynamiques (Σctx).
+      - data_type et consent permettent d'activer les règles Rego R1/R2.
+    """
+    region:       RegionLiteral       # contrainte géographique RGPD
+    latency:      LatencyLiteral      # profil de latence QoS
+    target_node:  TargetNodeLiteral   # tier cible préférentiel
+    data_type:    DataTypeLiteral     # nature des données traitées
+    consent:      ConsentLiteral      # consentement explicite exprimé
+    data_locality: LocalityLiteral    # contrainte de localisation des données
 
 
 class TaskItem(TypedDict, total=False):
@@ -50,7 +91,8 @@ class BPACCState(TypedDict, total=False):
     engine_context: EngineContext
 
     # ── Node 2 : reformulation ───────────────────────────────────────
-    user_story: str
+    user_story:             str
+    governance_constraints: GovernanceConstraints   # ← NOUVEAU : extrait du user intent
 
     # ── Node 3 : estimation ──────────────────────────────────────────
     task_count:  int

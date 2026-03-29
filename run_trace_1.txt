@@ -1,0 +1,510 @@
+(bpacc) anonymous@anonymous bpacc % python3 bpacc_orchestrator.py
+  DEBUG CONNECTORS_DIR=/home/bpacc/capability_profiles_builder/design_time/camunda-templates
+  DEBUG exists=True
+
+=== [1/3] Démarrage de l'Infrastructure BPACC ===
+  Smart Listener démarré sur bpacc.queue.edge
+  Smart Listener démarré sur bpacc.queue.endpoint
+2026-03-29 16:41:01,754 [INFO] Client Kubernetes initialisé (kubeconfig local).
+2026-03-29 16:41:01,755 [INFO] Client Kubernetes initialisé (kubeconfig local).
+2026-03-29 16:41:01,760 [INFO] Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2026-03-29 16:41:01,760 [INFO] Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2026-03-29 16:41:01,761 [INFO] Socket connected: <socket.socket fd=8, family=30, type=1, proto=6, laddr=('::1', 63878, 0, 0), raddr=('::1', 5672, 0, 0)>
+2026-03-29 16:41:01,761 [INFO] Socket connected: <socket.socket fd=8, family=30, type=1, proto=6, laddr=('::1', 63877, 0, 0), raddr=('::1', 5672, 0, 0)>
+2026-03-29 16:41:01,761 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x107cbf6e0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x107cbf6e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2026-03-29 16:41:01,761 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x103922960>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x103922960> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2026-03-29 16:41:01,773 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x107cbf6e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:41:01,773 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x107cbf6e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:41:01,773 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x107cbf6e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:41:01,773 [INFO] Created channel=1
+2026-03-29 16:41:01,774 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x103922960> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:41:01,774 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x103922960> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:41:01,774 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x103922960> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:41:01,774 [INFO] Created channel=1
+2026-03-29 16:41:01,781 [INFO] Smart Listener v2 opérationnel — écoute sur bpacc.queue.edge
+2026-03-29 16:41:01,781 [INFO] Smart Listener v2 opérationnel — écoute sur bpacc.queue.endpoint
+2026-03-29 16:41:01,781 [INFO]   Zeebe REST           : http://localhost:8088
+2026-03-29 16:41:01,781 [INFO]   K8s NS               : default
+2026-03-29 16:41:01,781 [INFO]   Zeebe REST           : http://localhost:8088
+2026-03-29 16:41:01,781 [INFO]   process_instance_key : (non défini — Zero-Trust)
+2026-03-29 16:41:01,781 [INFO]   K8s NS               : default
+2026-03-29 16:41:01,782 [INFO]   process_instance_key : (non défini — Zero-Trust)
+=== Infrastructure Prête (mode Zero-Trust) ===
+
+=== [2/3] Lancement de B1 (Business Intent Converter) ===
+Requête : 'I need to qualify visitors at a tech conference using a Pepper robot.'
+
+  [intent_reformulator] governance_constraints extrait :
+    region          = eu
+    latency         = standard
+    target_node     = EndpointNode
+    data_type       = biometric
+    consent         = true
+    data_locality   = endpoint-only
+  [task_decomposer] 1/31 — Detect visitor presence
+  [task_decomposer] 2/31 — Greet visitor
+  [task_decomposer] 3/31 — Request badge or registration ID
+  [task_decomposer] 4/31 — Read badge or registration ID
+  [task_decomposer] 5/31 — Send ID to registration system
+  [task_decomposer] 6/31 — Receive registration status
+  [task_decomposer] 7/31 — Check if visitor is registered
+  [task_decomposer] 8/31 — Request facial recognition consent
+  [task_decomposer] 9/31 — Capture facial image
+  [task_decomposer] 10/31 — Perform on-device face matching
+  [task_decomposer] 11/31 — Evaluate biometric match score
+  [task_decomposer] 12/31 — Display green light indicator
+  [task_decomposer] 13/31 — Display directions to restricted area
+  [task_decomposer] 14/31 — Notify security officer
+  [task_decomposer] 15/31 — Log entry event
+  [task_decomposer] 16/31 — Proceed with badge-only verification
+  [task_decomposer] 17/31 — Identify verification failure
+  [task_decomposer] 18/31 — Log security incident
+  [task_decomposer] 19/31 — Enter restricted area
+  [task_decomposer] 20/31 — Query attendee database
+  [task_decomposer] 21/31 — Handle visitor manually
+  [task_decomposer] 22/31 — Visitor declines consent
+  [task_decomposer] 23/31 — Visitor presents badge or registration ID
+  [task_decomposer] 24/31 — Receive visitor data
+  [task_decomposer] 25/31 — Receive security alert
+  [task_decomposer] 26/31 — Verify visitor identity manually
+  [task_decomposer] 27/31 — Grant physical access
+  [task_decomposer] 28/31 — Deny physical access
+  [task_decomposer] 29/31 — Process visitor consent input
+  [task_decomposer] 30/31 — Process visitor consent input
+  [task_decomposer] 31/31 — Complete visitor qualification process
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+Loading weights: 100%|████████████████████████████████████████████████████████████| 103/103 [00:00<00:00, 7172.13it/s]
+BertModel LOAD REPORT from: sentence-transformers/all-MiniLM-L6-v2
+Key                     | Status     |  | 
+------------------------+------------+--+-
+embeddings.position_ids | UNEXPECTED |  | 
+
+Notes:
+- UNEXPECTED    :can be ignored when loading from different task/architecture; not ok if you expect identical arch.
+  [retriever] Detect visitor presence             → Robot_Service                  distance=0.3676 ✓
+  [retriever] Greet visitor                       → Robot_Service                  distance=0.2967 ✓
+  [retriever] Request badge or registration ID    → TextToSpeech_Service           distance=0.363 ✓
+  [retriever] Read badge or registration ID       → Robot_Service                  distance=0.5129 ✓
+  [retriever] Send ID to registration system      → Robot_Service                  distance=0.434 ✓
+  [retriever] Receive registration status         → Robot_Service                  distance=0.4876 ✓
+  [retriever] Check if visitor is registered      → Robot_Service                  distance=0.4323 ✓
+  [retriever] Request facial recognition consent  → Robot_Service                  distance=0.4318 ✓
+  [retriever] Capture facial image                → VideoCapture_Service           distance=0.4164 ✓
+  [retriever] Perform on-device face matching     → OCR_Service                    distance=0.5155 ✓
+  [retriever] Evaluate biometric match score      → Robot_Service                  distance=0.4927 ✓
+  [retriever] Display green light indicator       → Robot_Service                  distance=0.3981 ✓
+  [retriever] Display directions to restricted area → Robot_Service                  distance=0.3645 ✓
+  [retriever] Notify security officer             → Robot_Service                  distance=0.4352 ✓
+  [retriever] Log entry event                     → Robot_Service                  distance=0.5559 ✓
+  [retriever] Proceed with badge-only verification → Robot_Service                  distance=0.477 ✓
+  [retriever] Identify verification failure       → Robot_Service                  distance=0.4842 ✓
+  [retriever] Log security incident               → Robot_Service                  distance=0.6068 ✓
+  [retriever] Enter restricted area               → VisitorInteraction_Service     distance=0.5906 ✓
+  [retriever] Query attendee database             → VisitorQualification_Service   distance=0.6486 ✓
+  [retriever] Handle visitor manually             → VisitorInteraction_Service     distance=0.6071 ✓
+  [retriever] Visitor declines consent            → Robot_Service                  distance=0.5826 ✓
+  [retriever] Visitor presents badge or registration ID → Robot_Service                  distance=0.6505 ✗ GAP
+  [retriever] Receive visitor data                → Robot_Service                  distance=0.6191 ✓
+  [retriever] Receive security alert              → Robot_Service                  distance=0.5785 ✓
+  [retriever] Verify visitor identity manually    → VisitorInteraction_Service     distance=0.5706 ✓
+  [retriever] Grant physical access               → VisitorInteraction_Service     distance=0.563 ✓
+  [retriever] Deny physical access                → VisitorInteraction_Service     distance=0.5671 ✓
+  [retriever] Process visitor consent input       → Robot_Service                  distance=0.5083 ✓
+  [retriever] Process visitor consent input       → Robot_Service                  distance=0.5083 ✓
+  [retriever] Complete visitor qualification process → Robot_Service                  distance=0.4266 ✓
+
+  [task_consolidator] 10 tâches consolidées (31 matchées → 10 finales)
+  [task_consolidator] 3 tâche(s) supprimée(s)
+  [task_consolidator] Sequential Robot_Service tasks were merged wherever possible to create a lean flow; parallel human tasks remain separate...
+
+  [task_consolidator] DEBUG dépendances :
+    'Detect and greet visitor' → deps=[]
+    'Request visitor ID' → deps=['Detect and greet visitor']
+    'Read and validate visitor ID' → deps=['Request visitor ID']
+    'Request facial recognition consent' → deps=['Read and validate visitor ID']
+    'Capture and match facial image' → deps=['Request facial recognition consent']
+    'Evaluate verification result' → deps=['Capture and match facial image', 'Read and validate visitor ID']
+    'Grant access and provide directions' → deps=['Evaluate verification result']
+    'Notify security and log incident' → deps=['Evaluate verification result']
+    'Enter restricted area' → deps=['Grant access and provide directions']
+    'Handle manual verification' → deps=['Notify security and log incident']
+  [instance_resolver] catalogue raw : 13 services → 13 classes abstraites
+  [instance_resolver] ✓ Detect and greet visitor                      → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Request visitor ID                            → TextToSpeech_NAOqi_Pepper
+  [instance_resolver] ✓ Read and validate visitor ID                  → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Request facial recognition consent            → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Capture and match facial image                → VideoCapture_NAOqi_Pepper
+  [instance_resolver] ✓ Evaluate verification result                  → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Grant access and provide directions           → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Notify security and log incident              → Robot_Behavior_Interaction
+  [instance_resolver] ✓ Enter restricted area                         → VisitorInteraction_Streamlit_UI
+  [instance_resolver] ✓ Handle manual verification                    → VisitorInteraction_Streamlit_UI
+
+  [instance_resolver] 10/10 tâches résolues (0 non résolues)
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Detect and greet visitor                 → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-texttospeech.json
+  [connector_loader] ✓ Request visitor ID                       → bpacc-texttospeech.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Read and validate visitor ID             → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Request facial recognition consent       → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-videocapture.json
+  [connector_loader] ✓ Capture and match facial image           → bpacc-videocapture.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Evaluate verification result             → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Grant access and provide directions      → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-robot.json
+  [connector_loader] ✓ Notify security and log incident         → bpacc-robot.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-visitorinteraction.json
+  [connector_loader] ✓ Enter restricted area                    → bpacc-visitorinteraction.json
+  DEBUG trying path=/home/bpacc/capability_profiles_builder/design_time/camunda-templates/bpacc-visitorinteraction.json
+  [connector_loader] ✓ Handle manual verification               → bpacc-visitorinteraction.json
+  [bpmn_generator] 1/10 — Detect and greet visitor
+  [bpmn_generator] 2/10 — Request visitor ID
+  [bpmn_generator] 3/10 — Read and validate visitor ID
+  [bpmn_generator] 4/10 — Request facial recognition consent
+  [bpmn_generator] 5/10 — Capture and match facial image
+  [bpmn_generator] 6/10 — Evaluate verification result
+  [bpmn_generator] 7/10 — Grant access and provide directions
+  [bpmn_generator] 8/10 — Notify security and log incident
+  [bpmn_generator] 9/10 — Enter restricted area
+  [bpmn_generator] 10/10 — Handle manual verification
+  [bpmn_generator] assemblage Python déterministe...
+  [bpmn_generator] ✓ BPMN assemblé — 19675 chars
+  [bpmn_validator] ✓ BPMN valide
+
+  [persist_bpmn] ✓ BPMN       → /home/bpacc/output/bpacc_process_20260329_164714.bpmn
+  [persist_bpmn] ✓ Rapport    → /home/bpacc/output/bpacc_process_20260329_164714.json
+  [persist_bpmn] ✓ Latest     → /home/bpacc/output/bpacc_process_latest.bpmn
+  [persist_bpmn] bpmn_valid=True | 10 tâches | 1 gap(s)
+
+  [response_generator] status=partial
+  A 31-task BPMN process was successfully generated for the Pepper robot to greet and verify conference visitors at the entrance. All decision paths—badge-only verification, biometric verification with consent, and manual fallback—are modeled and connected to available robot, video-capture, OCR, and visitor-interaction services.
+
+══════════════════════════════════════════════════════════════════════
+  BPACC — RAPPORT AU BUSINESS ANALYST
+══════════════════════════════════════════════════════════════════════
+
+  Statut        : ⚠️   SUCCÈS PARTIEL (gaps détectés)
+  BPMN valide   : ✓ oui
+  Fichier BPMN  : /home/bpacc/output/bpacc_process_20260329_164714.bpmn
+
+──────────────────────────────────────────────────────────────────────
+  CONTRAINTES DE GOUVERNANCE EXTRAITES DU USER INTENT
+
+    Région géographique            : eu
+    Profil de latence              : standard
+    Tier cible                     : EndpointNode
+    Type de données                : biometric
+    Consentement explicite         : true
+    Localisation des données       : endpoint-only
+
+──────────────────────────────────────────────────────────────────────
+  RÉSUMÉ
+
+    A 31-task BPMN process was successfully generated for the Pepper
+    robot to greet and verify conference visitors at the entrance. All
+    decision paths—badge-only verification, biometric verification
+    with consent, and manual fallback—are modeled and connected to
+    available robot, video-capture, OCR, and visitor-interaction
+    services.
+
+──────────────────────────────────────────────────────────────────────
+  TÂCHES GÉNÉRÉES DANS LE BPMN (10)
+
+     1. [automated] Detect and greet visitor
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : —
+     2. [automated] Request visitor ID
+          Abstrait  : TextToSpeech_Service
+          Instance  : TextToSpeech_NAOqi_Pepper (bpacc-tts)
+          Dépend    : Detect and greet visitor
+     3. [automated] Read and validate visitor ID
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Request visitor ID
+     4. [automated] Request facial recognition consent
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Read and validate visitor ID
+     5. [automated] Capture and match facial image
+          Abstrait  : VideoCapture_Service
+          Instance  : VideoCapture_NAOqi_Pepper (bpacc-video-capture)
+          Dépend    : Request facial recognition consent
+     6. [automated] Evaluate verification result
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Capture and match facial image, Read and validate visitor ID
+     7. [automated] Grant access and provide directions
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Evaluate verification result
+     8. [automated] Notify security and log incident
+          Abstrait  : Robot_Service
+          Instance  : Robot_Behavior_Interaction (bpacc-robot-actuation)
+          Dépend    : Evaluate verification result
+     9. [human    ] Enter restricted area
+          Abstrait  : VisitorInteraction_Service
+          Instance  : VisitorInteraction_Streamlit_UI (bpacc-streamlit-ui)
+          Dépend    : Grant access and provide directions
+    10. [human    ] Handle manual verification
+          Abstrait  : VisitorInteraction_Service
+          Instance  : VisitorInteraction_Streamlit_UI (bpacc-streamlit-ui)
+          Dépend    : Notify security and log incident
+
+──────────────────────────────────────────────────────────────────────
+  ⚠️  CAPABILITY GAPS (1) — tâches non couvertes
+
+    ✗  Visitor presents badge or registration ID
+       Meilleur service trouvé : Robot_Service (distance=0.6505)
+       → Aucun service suffisamment proche dans le catalogue.
+
+    The task "Visitor presents badge or registration ID" could not be
+    matched to any available service. This means the robot currently
+    has no way to physically accept or scan the visitor’s badge or
+    typed registration ID.
+
+──────────────────────────────────────────────────────────────────────
+  PROCHAINES ÉTAPES
+
+    The Continuum Engineer must add or configure a service that can
+    read physical badges (e.g., NFC/RFID reader) or capture typed/QR
+    code input so the robot can receive the visitor’s credential. Once
+    this service is onboarded and tagged with the capability
+    "Badge_Reader_Service", the process will be fully executable.
+
+══════════════════════════════════════════════════════════════════════
+  VALIDATION REQUISE
+
+  Répondez :
+    yes              → approuve et lance le déploiement Zeebe
+    no <justification> → rejette et notifie le Continuum Engineer
+══════════════════════════════════════════════════════════════════════
+
+
+[Orchestrateur] B1 en pause — interrupt human_validator atteint.
+[Orchestrateur] Tâches : ['Detect and greet visitor', 'Request visitor ID', 'Read and validate visitor ID', 'Request facial recognition consent', 'Capture and match facial image', 'Evaluate verification result', 'Grant access and provide directions', 'Notify security and log incident', 'Enter restricted area', 'Handle manual verification']
+[Orchestrateur] Gaps   : ['Visitor presents badge or registration ID']
+[Orchestrateur] BPMN valide : True
+
+=== [3/3] Approbation et Déploiement ===
+[Orchestrateur] Simulation validation Business Analyst → approved
+
+
+  [resume_b1] reprise du graph — validation_status=approved
+  [human_validator] validation_status=approved
+  [zeebe_deployer] ── DEBUG CONNECTIVITÉ ──
+  [zeebe_deployer] ZEEBE_REST_URL  = http://localhost:8088
+  [zeebe_deployer] DEPLOY_ENDPOINT = http://localhost:8088/v2/deployments
+  [zeebe_deployer] Sonde topology  → http://localhost:8088/v2/topology
+  [zeebe_deployer] topology HTTP 200
+  [zeebe_deployer] brokers actifs : 1
+    broker 0 — 172.19.0.3:26501 version=8.8.11
+  [zeebe_deployer] ─────────────────────────
+  [zeebe_deployer] source       : fichier → bpacc_process_20260329_164714.bpmn
+  [zeebe_deployer] taille       : 19675 chars
+  [zeebe_deployer] POST http://localhost:8088/v2/deployments
+  [zeebe_deployer] HTTP 200
+  [zeebe_deployer] headers réponse : {'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'pragma': 'no-cache', 'expires': '0', 'x-frame-options': 'SAMEORIGIN', 'content-security-policy': "default-src 'self'; base-uri 'self'; script-src 'self' https: *.chargebee.com *.mixpanel.com ajax.cloudflare.com static.cloudflareinsights.com; script-src-elem 'self' cdn.jsdelivr.net ; connect-src 'self' https: *.mixpanel.com cloudflareinsights.com *.appcues.net wss://api.appcues.net cdn.jsdelivr.net; style-src 'self' https: 'unsafe-inline' cdn.jsdelivr.net *.googleapis.com *.chargebee.com; img-src data: 'self'; form-action 'self'; frame-ancestors 'self'; frame-src 'self' https: *.chargebee.com blob: ; object-src 'self' blob:; font-src 'self' data: fonts.camunda.io cdn.jsdelivr.net; worker-src 'self' blob:; child-src; script-src-attr 'none'", 'referrer-policy': 'strict-origin-when-cross-origin', 'permissions-policy': 'accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=(), browsing-topics=(), camera=(), compute-pressure=(), cross-origin-isolated=(), deferred-fetch=(), deferred-fetch-minimal=(), display-capture=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), language-detector=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), summarizer=(), translator=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()', 'cross-origin-opener-policy': 'same-origin-allow-popups', 'cross-origin-embedder-policy': 'unsafe-none', 'cross-origin-resource-policy': 'same-site', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'date': 'Sun, 29 Mar 2026 14:47:33 GMT', 'keep-alive': 'timeout=60', 'connection': 'keep-alive'}
+  [zeebe_deployer] payload réponse : {'tenantId': '<default>', 'deploymentKey': '2251799816573997', 'deployments': [{'processDefinition': {'processDefinitionId': 'Process_5632c411', 'processDefinitionVersion': 1, 'resourceName': 'bpacc_process_20260329_164714.bpmn', 'tenantId': '<default>', 'processDefinitionKey': '2251799816573998'}}]}
+  [zeebe_deployer] ✓ Déployé avec succès
+    processDefinitionKey : 2251799816573998
+    processDefinitionId  : Process_5632c411
+    version              : 1
+    Operate              : http://localhost:8088/operate
+  [zeebe_instance_launcher] process_definition_key = '2251799816573998'
+  [zeebe_instance_launcher] process_id             = 'Process_5632c411'
+  [zeebe_instance_launcher] variables gouvernance ← governance_constraints (state)
+    region='eu'  latency='standard'  target_node='EndpointNode'
+    data_type='biometric'  consent='true'  data_locality='endpoint-only'
+  [zeebe_instance_launcher] stratégie : processDefinitionKey=2251799816573998
+  [zeebe_instance_launcher] ── DEBUG PRÉ-LANCEMENT ──
+  [zeebe_instance_launcher] INSTANCES_ENDPOINT = http://localhost:8088/v2/process-instances
+  [zeebe_instance_launcher] payload (tronqué)  :
+    {
+      "processDefinitionKey": "2251799816573998",
+      "variables": {
+        "governance_region": "eu",
+        "governance_latency": "standard",
+        "governance_target_node": "EndpointNode",
+        "governance_data_type": "biometric",
+        "governance_consent": "true",
+        "governance_data_locality": "endpoint-only",
+        "process_title": "As a conference organizer, I want a Pepper robot stationed at the entrance to automatically qualify each arriving visitor so that only registered attendees can enter restricted areas. The robot greets",
+        "task_count": 10,
+        "task_labels": [
+          "Detect and greet visitor",
+          "Request visitor ID",
+          "Read and validate visitor ID",
+          "Request facial recognition consent",
+          "Capture and match facial image",
+          "Evaluate verification result",
+          "Grant access and provide directions",
+          "Notify security and log incident",
+          "Enter restricted area",
+          "Handle manual verification"
+        ],
+        "concrete_instance_ids": [
+          "Robot_Behavior_Interaction",
+          "TextToSpeech_NAOqi_Pepper",
+          "Robot_Behavior_Interaction",
+          "Robot_Behavior_Interaction",
+          "VideoCapture_NAOqi_Pepper",
+          "Robot_Behavior_Interaction",
+    ... (41 lignes total)
+  [zeebe_instance_launcher] ─────────────────────────
+  [zeebe_instance_launcher] POST http://localhost:8088/v2/process-instances
+  [zeebe_instance_launcher] HTTP 200
+  [zeebe_instance_launcher] headers réponse : {'x-content-type-options': 'nosniff', 'x-xss-protection': '0', 'cache-control': 'no-cache, no-store, max-age=0, must-revalidate', 'pragma': 'no-cache', 'expires': '0', 'x-frame-options': 'SAMEORIGIN', 'content-security-policy': "default-src 'self'; base-uri 'self'; script-src 'self' https: *.chargebee.com *.mixpanel.com ajax.cloudflare.com static.cloudflareinsights.com; script-src-elem 'self' cdn.jsdelivr.net ; connect-src 'self' https: *.mixpanel.com cloudflareinsights.com *.appcues.net wss://api.appcues.net cdn.jsdelivr.net; style-src 'self' https: 'unsafe-inline' cdn.jsdelivr.net *.googleapis.com *.chargebee.com; img-src data: 'self'; form-action 'self'; frame-ancestors 'self'; frame-src 'self' https: *.chargebee.com blob: ; object-src 'self' blob:; font-src 'self' data: fonts.camunda.io cdn.jsdelivr.net; worker-src 'self' blob:; child-src; script-src-attr 'none'", 'referrer-policy': 'strict-origin-when-cross-origin', 'permissions-policy': 'accelerometer=(), ambient-light-sensor=(), attribution-reporting=(), autoplay=(), bluetooth=(), browsing-topics=(), camera=(), compute-pressure=(), cross-origin-isolated=(), deferred-fetch=(), deferred-fetch-minimal=(), display-capture=(), encrypted-media=(), fullscreen=(), gamepad=(), geolocation=(), gyroscope=(), hid=(), identity-credentials-get=(), idle-detection=(), language-detector=(), local-fonts=(), magnetometer=(), microphone=(), midi=(), otp-credentials=(), payment=(), picture-in-picture=(), publickey-credentials-create=(), publickey-credentials-get=(), screen-wake-lock=(), serial=(), speaker-selection=(), storage-access=(), summarizer=(), translator=(), usb=(), web-share=(), window-management=(), xr-spatial-tracking=()', 'cross-origin-opener-policy': 'same-origin-allow-popups', 'cross-origin-embedder-policy': 'unsafe-none', 'cross-origin-resource-policy': 'same-site', 'content-type': 'application/json', 'transfer-encoding': 'chunked', 'date': 'Sun, 29 Mar 2026 14:47:33 GMT', 'keep-alive': 'timeout=60', 'connection': 'keep-alive'}
+  [zeebe_instance_launcher] payload réponse : {'processDefinitionId': 'Process_5632c411', 'processDefinitionVersion': 1, 'tenantId': '<default>', 'variables': {}, 'processDefinitionKey': '2251799816573998', 'processInstanceKey': '2251799816573999', 'tags': []}
+  [zeebe_instance_launcher] ✓ Instance lancée
+    processInstanceKey  : 2251799816573999
+    processDefinitionId : Process_5632c411
+    version             : 1
+    Operate             : http://localhost:8088/operate
+
+══════════════════════════════════════════════════════════════════════
+  BPACC — RÉSULTAT FINAL
+══════════════════════════════════════════════════════════════════════
+
+  ✅  Déploiement Zeebe        : succès
+      processDefinitionKey      : 2251799816573998
+      processDefinitionId       : Process_5632c411
+  ✅  Instance lancée          : succès
+      processInstanceKey        : 2251799816573999
+
+══════════════════════════════════════════════════════════════════════
+
+
+[Orchestrateur] Status final B1 : running
+[Orchestrateur] processInstanceKey : 2251799816573999
+
+[Orchestrateur] Redémarrage des Listeners avec PROCESS_INSTANCE_KEY=2251799816573999
+  PROCESS_INSTANCE_KEY=2251799816573999 injecté dans les Listeners
+  Smart Listener démarré sur bpacc.queue.edge
+  Smart Listener démarré sur bpacc.queue.endpoint
+2026-03-29 16:47:33,935 [INFO] Client Kubernetes initialisé (kubeconfig local).
+2026-03-29 16:47:33,936 [INFO] Client Kubernetes initialisé (kubeconfig local).
+2026-03-29 16:47:33,938 [INFO] Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2026-03-29 16:47:33,939 [INFO] Socket connected: <socket.socket fd=8, family=30, type=1, proto=6, laddr=('::1', 64006, 0, 0), raddr=('::1', 5672, 0, 0)>
+2026-03-29 16:47:33,939 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x106fd52e0>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x106fd52e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2026-03-29 16:47:33,939 [INFO] Pika version 1.3.2 connecting to ('::1', 5672, 0, 0)
+2026-03-29 16:47:33,940 [INFO] Socket connected: <socket.socket fd=8, family=30, type=1, proto=6, laddr=('::1', 64007, 0, 0), raddr=('::1', 5672, 0, 0)>
+2026-03-29 16:47:33,940 [INFO] Streaming transport linked up: (<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105c35b20>, _StreamingProtocolShim: <SelectConnection PROTOCOL transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105c35b20> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>).
+2026-03-29 16:47:33,963 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x106fd52e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:47:33,963 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x106fd52e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:47:33,963 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x106fd52e0> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:47:33,964 [INFO] Created channel=1
+2026-03-29 16:47:33,971 [INFO] AMQPConnector - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105c35b20> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:47:33,972 [INFO] AMQPConnectionWorkflow - reporting success: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105c35b20> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:47:33,972 [INFO] Connection workflow succeeded: <SelectConnection OPEN transport=<pika.adapters.utils.io_services_utils._AsyncPlaintextTransport object at 0x105c35b20> params=<ConnectionParameters host=localhost port=5672 virtual_host=/ ssl=False>>
+2026-03-29 16:47:33,973 [INFO] Created channel=1
+2026-03-29 16:47:33,987 [INFO] Smart Listener v2 opérationnel — écoute sur bpacc.queue.edge
+2026-03-29 16:47:33,987 [INFO]   Zeebe REST           : http://localhost:8088
+2026-03-29 16:47:33,987 [INFO]   K8s NS               : default
+2026-03-29 16:47:33,987 [INFO]   process_instance_key : 2251799816573999
+2026-03-29 16:47:33,987 [INFO] 
+────────────────────────────────────────────────────────────
+[0827a0f5] Execution Intent reçu (B2)
+2026-03-29 16:47:33,988 [INFO] [0827a0f5] cap_id=bpacc:VideoCapture_Service
+2026-03-29 16:47:33,996 [INFO] Smart Listener v2 opérationnel — écoute sur bpacc.queue.endpoint
+2026-03-29 16:47:33,996 [INFO]   Zeebe REST           : http://localhost:8088
+2026-03-29 16:47:33,996 [INFO]   K8s NS               : default
+2026-03-29 16:47:33,997 [INFO]   process_instance_key : 2251799816573999
+2026-03-29 16:47:33,997 [INFO] 
+────────────────────────────────────────────────────────────
+[553ca43e] Execution Intent reçu (B2)
+2026-03-29 16:47:33,997 [INFO] [553ca43e] cap_id=bpacc:Robot_Service
+2026-03-29 16:47:34,156 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:34,156 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:34,156 [INFO]   [zeebe_vars] variables governance absentes (tentative 1/4) — retry dans 0.1s
+2026-03-29 16:47:34,157 [INFO]   [zeebe_vars] variables governance absentes (tentative 1/4) — retry dans 0.1s
+2026-03-29 16:47:34,279 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:34,279 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:34,280 [INFO]   [zeebe_vars] variables governance absentes (tentative 2/4) — retry dans 0.2s
+2026-03-29 16:47:34,280 [INFO]   [zeebe_vars] variables governance absentes (tentative 2/4) — retry dans 0.2s
+2026-03-29 16:47:34,513 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:34,513 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:34,514 [INFO]   [zeebe_vars] variables governance absentes (tentative 3/4) — retry dans 0.4s
+2026-03-29 16:47:34,514 [INFO]   [zeebe_vars] variables governance absentes (tentative 3/4) — retry dans 0.4s
+2026-03-29 16:47:34,973 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:34,973 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:34,974 [WARNING]   [zeebe_vars] variables governance toujours absentes après 4 tentatives — valeurs Zero-Trust appliquées
+2026-03-29 16:47:34,974 [WARNING]   [zeebe_vars] variables governance toujours absentes après 4 tentatives — valeurs Zero-Trust appliquées
+2026-03-29 16:47:34,974 [INFO] [0827a0f5] adraft prêt — image=bpacc-videocapture tier=endpoint data_type=unknown consent=false
+2026-03-29 16:47:34,974 [INFO] [0827a0f5] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 16:47:34,974 [INFO] [553ca43e] adraft prêt — image=bpacc-robot tier=endpoint data_type=unknown consent=false
+2026-03-29 16:47:34,974 [INFO] [553ca43e] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 16:47:35,035 [INFO] [0827a0f5] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+2026-03-29 16:47:35,035 [INFO] [553ca43e] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+2026-03-29 16:47:35,038 [INFO] 
+────────────────────────────────────────────────────────────
+[be20ce58] Execution Intent reçu (B2)
+2026-03-29 16:47:35,038 [INFO] [be20ce58] cap_id=bpacc:TextToSpeech_Service
+2026-03-29 16:47:35,072 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:35,072 [INFO]   [zeebe_vars] variables governance absentes (tentative 1/4) — retry dans 0.1s
+2026-03-29 16:47:35,199 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:35,200 [INFO]   [zeebe_vars] variables governance absentes (tentative 2/4) — retry dans 0.2s
+2026-03-29 16:47:35,441 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:35,444 [INFO]   [zeebe_vars] variables governance absentes (tentative 3/4) — retry dans 0.4s
+2026-03-29 16:47:35,901 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:35,902 [WARNING]   [zeebe_vars] variables governance toujours absentes après 4 tentatives — valeurs Zero-Trust appliquées
+2026-03-29 16:47:35,902 [INFO] [be20ce58] adraft prêt — image=bpacc-texttospeech tier=endpoint data_type=unknown consent=false
+2026-03-29 16:47:35,902 [INFO] [be20ce58] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 16:47:35,955 [INFO] [be20ce58] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+2026-03-29 16:47:35,966 [INFO] 
+────────────────────────────────────────────────────────────
+[cc611042] Execution Intent reçu (B2)
+2026-03-29 16:47:35,966 [INFO] [cc611042] cap_id=bpacc:Robot_Service
+2026-03-29 16:47:36,001 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:36,002 [INFO]   [zeebe_vars] ✓ scopeKey=2251799816573999 (tentative 1) → data_type=biometric consent=true
+2026-03-29 16:47:36,002 [INFO] [cc611042] adraft prêt — image=bpacc-robot tier=endpoint data_type=biometric consent=true
+2026-03-29 16:47:36,002 [INFO] [cc611042] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 16:47:36,021 [INFO] [cc611042] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+2026-03-29 16:47:36,026 [INFO] 
+────────────────────────────────────────────────────────────
+[ebd4fb5c] Execution Intent reçu (B2)
+2026-03-29 16:47:36,026 [INFO] [ebd4fb5c] cap_id=bpacc:Robot_Service
+2026-03-29 16:47:36,054 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:36,055 [INFO]   [zeebe_vars] ✓ scopeKey=2251799816573999 (tentative 1) → data_type=biometric consent=true
+2026-03-29 16:47:36,055 [INFO] [ebd4fb5c] adraft prêt — image=bpacc-robot tier=endpoint data_type=biometric consent=true
+2026-03-29 16:47:36,055 [INFO] [ebd4fb5c] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 16:47:36,089 [INFO] [ebd4fb5c] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+2026-03-29 16:47:36,090 [INFO] 
+────────────────────────────────────────────────────────────
+[0bd81e5b] Execution Intent reçu (B2)
+2026-03-29 16:47:36,090 [INFO] [0bd81e5b] cap_id=bpacc:Robot_Service
+2026-03-29 16:47:36,117 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:36,117 [INFO]   [zeebe_vars] ✓ scopeKey=2251799816573999 (tentative 1) → data_type=biometric consent=true
+2026-03-29 16:47:36,117 [INFO] [0bd81e5b] adraft prêt — image=bpacc-robot tier=endpoint data_type=biometric consent=true
+2026-03-29 16:47:36,117 [INFO] [0bd81e5b] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 16:47:36,129 [INFO] [0bd81e5b] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+2026-03-29 16:47:36,130 [INFO] 
+────────────────────────────────────────────────────────────
+[1a39f3fd] Execution Intent reçu (B2)
+2026-03-29 16:47:36,130 [INFO] [1a39f3fd] cap_id=bpacc:Robot_Service
+2026-03-29 16:47:36,161 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:36,161 [INFO]   [zeebe_vars] ✓ scopeKey=2251799816573999 (tentative 1) → data_type=biometric consent=true
+2026-03-29 16:47:36,161 [INFO] [1a39f3fd] adraft prêt — image=bpacc-robot tier=endpoint data_type=biometric consent=true
+2026-03-29 16:47:36,161 [INFO] [1a39f3fd] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 16:47:36,183 [INFO] [1a39f3fd] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+2026-03-29 16:47:36,186 [INFO] 
+────────────────────────────────────────────────────────────
+[1c670197] Execution Intent reçu (B2)
+2026-03-29 16:47:36,186 [INFO] [1c670197] cap_id=bpacc:Robot_Service
+2026-03-29 16:47:36,219 [INFO] HTTP Request: POST http://localhost:8088/v2/variables/search "HTTP/1.1 200 "
+2026-03-29 16:47:36,220 [INFO]   [zeebe_vars] ✓ scopeKey=2251799816573999 (tentative 1) → data_type=biometric consent=true
+2026-03-29 16:47:36,220 [INFO] [1c670197] adraft prêt — image=bpacc-robot tier=endpoint data_type=biometric consent=true
+2026-03-29 16:47:36,220 [INFO] [1c670197] Soumission K8s (évaluation B3 en cours)...
+2026-03-29 16:47:36,236 [INFO] [1c670197] ✅ VERDICT B3 : ADMITTED. Pod scheduled successfully.
+[Orchestrateur] Listeners opérationnels — data_type + consent lus depuis Zeebe.
+
+[Orchestrateur] Instance Zeebe lancée. Le moteur exécute le BPMN → connecteur RabbitMQ → Smart Listener → OPA B3.
+Observez les logs ci-dessous (CTRL+C pour quitter)...
+
+--------------------------------------------------------------------------------
+[auto_complete] Démarrage sur instance 2251799816573999
+[rejection_monitor] Écoute sur bpacc.queue.rejected...

@@ -1,0 +1,15 @@
+# test_scenario1_nominal.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pepper-biometric-nominal
+  annotations:
+    bpacc.io/data-type: "biometric"
+    bpacc.io/consent: "true"
+spec:
+  nodeSelector:
+    topology.kubernetes.io/region: "eu-west"
+  containers:
+    - name: whisper-stt
+      image: alpine
+      command: ["sleep", "3600"]

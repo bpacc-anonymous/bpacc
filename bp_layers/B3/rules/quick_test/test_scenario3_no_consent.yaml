@@ -1,0 +1,14 @@
+# test_scenario3_no_consent.yaml
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pepper-biometric-no-consent
+  annotations:
+    bpacc.io/data-type: "biometric"
+spec:
+  nodeSelector:
+    topology.kubernetes.io/region: "eu-west"
+  containers:
+    - name: whisper-stt
+      image: alpine
+      command: ["sleep", "3600"]
