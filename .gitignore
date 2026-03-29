@@ -5,3 +5,4 @@ __pycache__/
 chroma_db/
 design_time/.env
 zeebe/.env
+.DS_Store

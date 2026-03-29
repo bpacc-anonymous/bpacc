@@ -27,12 +27,12 @@ BPACC introduces a transversal Business Process Layer over the Compute Continuum
 curl -LsSf https://astral.sh/uv/install.sh | sh
 
 # Install dependencies
-uv sync
+uv pip install langgraph chromadb pyzeebe pika owlready2 rdflib requests python-dotenv
 ```
 
 ## Environment Variables
 
-Create a `. the root:
+Create a `.env` file at the root:
 ```
 NVIDIA_API_KEY=your_api_key
 RABBITMQ_URI=amqp://user:password@host:5672/
@@ -63,26 +63,18 @@ This executes:
 Generated BPMN files are stored in `output/` (excluded from this repo).
 Capability Catalog is available in `design_time/capability_catalog_standardized.json`.
 
-## Note on B3
+## B3 — Business Policy Repository
 
-B3 (OPA Gatekeeper) is modeled as a Validating Admission Webhook.
-Rego policy files are not included in this release.
-The formal properties of fvalidate are established by construction in theaper.
-
+B3 is implemented as an OPA Gatekeeper Validating Admission Webhook evaluating Rego policies.
+Rego policy files are included in this repo under `b3/`.
+The formal properties of `fvalidate` are established by construction in the paper (Section III-C3)
+and evaluated qualitatively in Section IV-E.
 
 ## Dependencies
 
-This project uses [uv](https://docs.astral.sh/uv/) for dependency management.
-No `pyproject.toml` is included in this release.
-
-Main dependencies to install manually:
+Main dependencies:
 ```bash
 uv pip install langgraph chromadb pyzeebe pika owlready2 rdflib requests python-dotenv
 ```
 
-
-## Note on B3 — Business Policy Repository
-
-B3 (OPA Gatekeeper as Validating Admission Webhook with Rego rules) is not included
-in this release. Its formal properties are established by construction in the paper (Section III-C3)
-and evaluated qualitatively in Section IV-E.
+Note: no `pyproject.toml` is included in this release.
